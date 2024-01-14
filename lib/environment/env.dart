@@ -10,4 +10,6 @@ final class Env {
   static const String supabaseDbPassword = _Env.supabaseDbPassword;
   @EnviedField(varName: 'SUPABASE_PUBLIC_KEY')
   static const String supabasePublicKey = _Env.supabasePublicKey;
+  @EnviedField(varName: 'SUPABASE_STORAGE_RETRY_ATTEMPTS')
+  static const int supabaseStorageRetryAttempts = _Env.supabaseStorageRetryAttempts;
 }

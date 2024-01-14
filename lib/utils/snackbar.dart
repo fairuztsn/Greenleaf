@@ -5,11 +5,8 @@ import 'package:smart_snackbars/smart_snackbars.dart';
 class Snackbars {
   static final messengerKey = GlobalKey<ScaffoldMessengerState>();
 
-  static void showSuccessSnackbar(
-   {required BuildContext context,
-      required String title,
-      required String message,
-      Duration? duration}) {
+  static void showSuccessSnackbar(BuildContext context,
+      {required String title, required String message, Duration? duration}) {
     SmartSnackBars.showTemplatedSnackbar(
         elevation: 2,
         animationCurve: Curves.fastLinearToSlowEaseIn,
@@ -51,11 +48,8 @@ class Snackbars {
         context: context);
   }
 
-  static void showFailedSnackbar(
-      {required BuildContext context,
-      required String title,
-      required String message,
-      Duration? duration}) {
+  static void showFailedSnackbar(BuildContext context,
+      {required String title, required String message, Duration? duration}) {
     SmartSnackBars.showTemplatedSnackbar(
       persist: true,
       elevation: 2,
@@ -101,11 +95,8 @@ class Snackbars {
     );
   }
 
-  static void showHelpSnackbar(
-      {required BuildContext context,
-      required String title,
-      required String message,
-      Duration? duration}) {
+  static void showHelpSnackbar(BuildContext context,
+      {required String title, required String message, Duration? duration}) {
     SmartSnackBars.showTemplatedSnackbar(
       elevation: 2,
       animationCurve: Curves.fastLinearToSlowEaseIn,
@@ -146,11 +137,8 @@ class Snackbars {
     );
   }
 
-  static void showWarningSnackbar(
-      {required BuildContext context,
-      required String title,
-      required String message,
-      Duration? duration}) {
+  static void showWarningSnackbar(BuildContext context,
+      {required String title, required String message, Duration? duration}) {
     SmartSnackBars.showTemplatedSnackbar(
       elevation: 2,
       animationCurve: Curves.fastLinearToSlowEaseIn,

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:greenleaf/res/strings.dart';
 import 'package:greenleaf/views/onboarding/onboarding.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,7 +14,14 @@ Future<void> main() async {
   await SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
   await Supabase.initialize(
-      url: Env.supabaseUrl, anonKey: Env.supabasePublicKey);
+      url: Env.supabaseUrl,
+      anonKey: Env.supabasePublicKey,
+      authOptions:
+          const FlutterAuthClientOptions(authFlowType: AuthFlowType.pkce),
+      realtimeClientOptions:
+          const RealtimeClientOptions(logLevel: RealtimeLogLevel.info),
+      storageOptions: const StorageClientOptions(
+          retryAttempts: Env.supabaseStorageRetryAttempts));
   runApp(const ProviderScope(child: MyApp()));
 }
 
@@ -22,7 +30,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: 'GreenLeaf',
+        title: AppStrings.appName,
         debugShowCheckedModeBanner: false,
         theme: ThemeData(fontFamily: "Mulish"),
         home: ScrollConfiguration(
