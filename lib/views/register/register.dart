@@ -10,6 +10,7 @@ class RegisterScreen extends ConsumerStatefulWidget {
 }
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
+  final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return BaseApp.loginRegisterBackground(
@@ -17,6 +18,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         children: [Text("Ini Register Page")],
         linkable: "Ada kendala?",
         toLinkable: () {},
-        lanjut: () {});
+        lanjut: () {},
+        formKey: formKey);
   }
 }
