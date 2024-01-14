@@ -3,33 +3,33 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class UserProfile extends Equatable {
-  final int id;
-  final String userId;
-  final String firstName;
-  final String lastName;
-  final String email;
-  final String phoneNumber;
-  final String homeStreet;
-  final String homeCity;
-  final String homeProvince;
-  final String photoProfile;
-  final String role;
-  final String privilege;
+  final int? id;
+  final String? userId;
+  final String? firstName;
+  final String? lastName;
+  final String? email;
+  final String? phoneNumber;
+  final String? homeStreet;
+  final String? homeCity;
+  final String? homeProvince;
+  final String? photoProfile;
+  final String? role;
+  final String? privilege;
 
   const UserProfile({
-    required this.firstName,
-    required this.lastName,
-    required this.email,
-    required this.phoneNumber,
-    required this.homeStreet,
-    required this.homeCity,
-    required this.homeProvince,
-    required this.photoProfile,
-    required this.role,
-    required this.privilege,
-    required this.id,
-    required this.userId,
-  });
+     this.firstName,
+     this.lastName,
+     this.email,
+     this.phoneNumber,
+     this.homeStreet,
+     this.homeCity,
+     this.homeProvince,
+     this.photoProfile,
+     this.role,
+     this.privilege,
+     this.id,
+     this.userId,
+});
 
   UserProfile copyWith({
     int? id,
