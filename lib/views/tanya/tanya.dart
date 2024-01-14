@@ -11,6 +11,8 @@ class TanyaScreen extends ConsumerStatefulWidget {
 class _TanyaScreenState extends ConsumerState<TanyaScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Center(
+      child: Text("Ini Tanya Page"),
+    );
   }
 }
