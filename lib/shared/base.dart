@@ -10,23 +10,14 @@ class BaseApp {
     final FloatingActionButtonLocation? floatingActionButtonLocation,
   }) {
     return SafeArea(
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          // image: DecorationImage(
-          //     image: AssetImage(ImageAssets.puraBg),
-          //     fit: BoxFit.contain,
-          //     alignment: Alignment.bottomCenter),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: appBar,
+        body: Container(
+          child: body,
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: appBar,
-          body: Container(
-            child: body,
-          ),
-          floatingActionButton: floatingActionButton,
-          floatingActionButtonLocation: floatingActionButtonLocation,
-        ),
+        floatingActionButton: floatingActionButton,
+        floatingActionButtonLocation: floatingActionButtonLocation,
       ),
     );
   }
@@ -178,16 +169,16 @@ class BaseApp {
     ));
   }
 
-  static Widget loginRegisterBackground({
-    required String states,
-    required List<Widget> children,
-    required String linkable,
-    required VoidCallback toLinkable,
-    required VoidCallback lanjut,
-  }) {
+  static Widget loginRegisterBackground(
+      {required String states,
+      required List<Widget> children,
+      required String linkable,
+      required VoidCallback toLinkable,
+      required VoidCallback lanjut,
+      required GlobalKey<FormState> formKey}) {
     return standardBackground(
         body: Center(
-            child: ListView(children: [
+            child: ListView(shrinkWrap: true, children: [
       const SizedBox(
         height: 50,
       ),
@@ -209,8 +200,11 @@ class BaseApp {
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-        child: Column(
-          children: children,
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: children,
+          ),
         ),
       ),
       const SizedBox(
@@ -224,15 +218,18 @@ class BaseApp {
       const SizedBox(
         height: 10,
       ),
-      TextButton(
-          onPressed: toLinkable,
-          child: Text(
-            linkable,
-            style: const TextStyle(
-                color: Constants.colorGreenLeaf,
-                fontSize: 10,
-                fontWeight: FontWeight.w300),
-          )),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+        child: TextButton(
+            onPressed: toLinkable,
+            child: Text(
+              linkable,
+              style: const TextStyle(
+                  color: Constants.colorGreenLeaf,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300),
+            )),
+      ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
         child: ElevatedButton(
