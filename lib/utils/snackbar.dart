@@ -29,7 +29,7 @@ class Snackbars {
           title,
           style: const TextStyle(
             color: Colors.white,
-            fontFamily: 'Poppins',
+            fontFamily: 'Mulish',
             fontWeight: FontWeight.w700,
             fontSize: 16,
           ),
@@ -73,7 +73,7 @@ class Snackbars {
         title,
         style: const TextStyle(
             color: Colors.white,
-            fontFamily: 'Poppins',
+            fontFamily: 'Mulish',
             fontWeight: FontWeight.w700),
       ),
       subTitleWidget: SizedBox(
@@ -119,7 +119,7 @@ class Snackbars {
         title,
         style: const TextStyle(
             color: Colors.white,
-            fontFamily: 'Poppins',
+            fontFamily: 'Mulish',
             fontWeight: FontWeight.w700),
       ),
       subTitleWidget: Padding(
@@ -157,7 +157,7 @@ class Snackbars {
         title,
         style: const TextStyle(
             color: Colors.white,
-            fontFamily: 'Poppins',
+            fontFamily: 'Mulish',
             fontWeight: FontWeight.w700),
       ),
       subTitleWidget: Padding(
