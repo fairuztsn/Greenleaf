@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/shared/const.dart';
+import 'package:greenleaf/views/register/help/help.dart';
 import 'package:greenleaf/views/register/second_step.dart/second_register.dart';
 import 'package:page_transition/page_transition.dart';
 
@@ -122,7 +123,13 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             ),
           ],
           linkable: "Ada kendala?",
-          toLinkable: () {},
+          toLinkable: () {
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: const RegisterHelpScreen(),
+                    type: PageTransitionType.leftToRight));
+          },
           lanjut: () {
             final navigator = Navigator.of(context);
             if (formKey.currentState!.validate()) {

@@ -4,6 +4,7 @@ import 'package:greenleaf/controller/auth_controller.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/shared/const.dart';
 import 'package:greenleaf/utils/snackbar.dart';
+import 'package:greenleaf/views/login/help/help.dart';
 import 'package:greenleaf/views/navbar/navbar.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -101,7 +102,13 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
             ),
           ],
           linkable: "Lupa password atau email?",
-          toLinkable: () {},
+          toLinkable: () {
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: const LoginHelpScreen(),
+                    type: PageTransitionType.leftToRight));
+          },
           lanjut: () async {
             final navigator = Navigator.of(context);
             if (formKey.currentState!.validate()) {
