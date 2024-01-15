@@ -175,6 +175,7 @@ class BaseApp {
       required String linkable,
       required VoidCallback toLinkable,
       required VoidCallback lanjut,
+      required String submit,
       required GlobalKey<FormState> formKey}) {
     return standardBackground(
         body: Center(
@@ -239,13 +240,27 @@ class BaseApp {
               shape: const RoundedRectangleBorder(
                   side: BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.all(Radius.circular(20)))),
-          child: const Text(
-            "Lanjut",
-            style: TextStyle(
+          child: Text(
+            submit,
+            style: const TextStyle(
                 fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white),
           ),
         ),
       ),
     ])));
+  }
+
+  static Widget inAppBackground({required Widget body}) {
+    return standardBackground(
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: Image.asset(
+            ImageAssets.loginRegisterLogo,
+            height: 50,
+            width: 50,
+          ),
+          centerTitle: true,
+        ),
+        body: body);
   }
 }
