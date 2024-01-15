@@ -2,17 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/shared/const.dart';
-import 'package:greenleaf/views/tanya/tanya_search.dart';
-import 'package:page_transition/page_transition.dart';
 
-class TanyaScreen extends ConsumerStatefulWidget {
-  const TanyaScreen({super.key});
+class TanyaSearchScreen extends ConsumerStatefulWidget {
+  const TanyaSearchScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _TanyaScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _TanyaSearchScreenState();
 }
 
-class _TanyaScreenState extends ConsumerState<TanyaScreen> {
+class _TanyaSearchScreenState extends ConsumerState<TanyaSearchScreen> {
   @override
   Widget build(BuildContext context) {
     return BaseApp.inAppBackground(
@@ -20,27 +19,17 @@ class _TanyaScreenState extends ConsumerState<TanyaScreen> {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
         child: ListView(children: [
-          OutlinedButton(
-              style: OutlinedButton.styleFrom(
-                  side: const BorderSide(color: Constants.colorGreenLeaf)),
-              onPressed: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        child: const TanyaSearchScreen(),
-                        type: PageTransitionType.fade));
-              },
-              child: const TextField(
-                enabled: false,
-                decoration: InputDecoration(
-                    hintText: "Cari panduan yang Anda butuhkan disini!",
-                    hintStyle: TextStyle(color: Colors.grey),
-                    focusedBorder: InputBorder.none,
-                    suffixIcon: Icon(
-                      Icons.search,
-                      color: Constants.colorGreenLeaf,
-                    )),
-              )),
+          TextField(
+            onChanged: (val) {},
+            decoration: const InputDecoration(
+                hintText: "Cari panduan yang Anda butuhkan disini!",
+                hintStyle: TextStyle(color: Colors.grey),
+                focusedBorder: InputBorder.none,
+                suffixIcon: Icon(
+                  Icons.search,
+                  color: Constants.colorGreenLeaf,
+                )),
+          ),
           const SizedBox(
             height: 20,
           ),
@@ -48,7 +37,7 @@ class _TanyaScreenState extends ConsumerState<TanyaScreen> {
             children: [
               ExpansionTile(
                 title: Text(
-                  "Apakah memelihara maggot sulit?",
+                  "Apakah Membuat Search Field Itu Susah?",
                   style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
                 ),
                 collapsedIconColor: Constants.colorGreenLeaf,
