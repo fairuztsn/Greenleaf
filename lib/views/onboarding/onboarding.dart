@@ -69,14 +69,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                           context,
                           PageTransition(
                               child: LoginRegister(
-                                  rolename: "GreenUser",
+                                  rolename: "GreenPeople",
                                   description:
                                       "Kami akan menjemput sampah anorganikmu tepat di depan pintu dan memberikanmu penghasilan tambahan",
                                   login: () {
                                     Navigator.push(
                                         context,
                                         PageTransition(
-                                            child: const LoginScreen(),
+                                            child: const LoginScreen(
+                                              rolename: "GreenPeople",
+                                            ),
                                             type: PageTransitionType
                                                 .leftToRight));
                                   },
@@ -98,7 +100,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                 BorderRadius.all(Radius.circular(20))),
                         fixedSize: Size.fromWidth(
                             MediaQuery.of(context).size.width * 0.8)),
-                    child: const Text("GreenUser",
+                    child: const Text("GreenPeople",
                         style: TextStyle(
                             fontWeight: FontWeight.w800,
                             fontSize: 20,
@@ -130,7 +132,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                     Navigator.push(
                                         context,
                                         PageTransition(
-                                            child: const LoginScreen(),
+                                            child: const LoginScreen(
+                                              rolename: "GreenPartner",
+                                            ),
                                             type: PageTransitionType
                                                 .leftToRight));
                                   },
@@ -184,7 +188,9 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                     Navigator.push(
                                         context,
                                         PageTransition(
-                                            child: const LoginScreen(),
+                                            child: const LoginScreen(
+                                              rolename: "GreenWorker",
+                                            ),
                                             type: PageTransitionType
                                                 .leftToRight));
                                   },
