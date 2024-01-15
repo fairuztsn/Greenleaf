@@ -9,7 +9,11 @@ import 'package:page_transition/page_transition.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
-  const LoginScreen({super.key});
+  final String rolename;
+  const LoginScreen({
+    super.key,
+    required this.rolename,
+  });
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _LoginScreenState();
@@ -112,20 +116,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               try {
                 // await ref.read(authControllerProvider.notifier).emailPassSignIn(
                 //     email: email.text, password: password.text);
-                if (!mounted) return;
-                Snackbars.showSuccessSnackbar(context,
-                    title: "Login Success", message: "Welcome to GreenLeaf");
+                if (mounted) {
+                  Snackbars.showSuccessSnackbar(context,
+                      title: "Login Success", message: "Welcome to GreenLeaf");
+                }
+
                 navigator.popUntil((route) => route.isFirst);
                 navigator.pushReplacement(PageTransition(
                     child: const Navbar(), type: PageTransitionType.fade));
-              } on PostgrestException catch (e) {
-                navigator.pop();
-                Snackbars.showFailedSnackbar(context,
-                    title: "Login Failed", message: e.toString());
+              } on AuthException catch (e) {
+                if (mounted) {
+                  navigator.pop();
+                  Snackbars.showFailedSnackbar(context,
+                      title: "Login Failed", message: e.toString());
+                }
+              } catch (e) {
+                if (mounted) {
+                  navigator.pop();
+                  Snackbars.showFailedSnackbar(context,
+                      title: "Unknown error occured", message: e.toString());
+                }
               }
             }
             setState(() {});
           },
+          submit: "Masuk",
           formKey: formKey),
     );
   }
