@@ -22,11 +22,11 @@ Future<void> main() async {
           const RealtimeClientOptions(logLevel: RealtimeLogLevel.info),
       storageOptions: const StorageClientOptions(
           retryAttempts: Env.supabaseStorageRetryAttempts));
-  runApp(const ProviderScope(child: MyApp()));
+  runApp(const ProviderScope(child: GreenLeafApp()));
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class GreenLeafApp extends StatelessWidget {
+  const GreenLeafApp({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
