@@ -36,68 +36,57 @@ class _NavbarState extends ConsumerState<Navbar> {
       value: const SystemUiOverlayStyle(
           systemNavigationBarColor: Colors.white,
           systemNavigationBarIconBrightness: Brightness.dark),
-      child: Scaffold(
-        backgroundColor: Colors.transparent,
-        body: SafeArea(
-          child: PageView(
+      child: SafeArea(
+        child: Scaffold(
+          backgroundColor: Colors.white,
+          body: PageView(
             physics: const NeverScrollableScrollPhysics(),
             controller: _pageController,
             children: ScreenIndex().buildPageView(),
           ),
-        ),
-        bottomNavigationBar: DecoratedBox(
-          decoration: BoxDecoration(
-            boxShadow: [
-              BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  offset: const Offset(0, -10),
-                  blurRadius: 8.0)
-            ],
-          ),
-          child: GNav(
-            rippleColor:
-                Colors.grey[800]!, // tab button ripple color when pressed
-            hoverColor: Colors.grey[700]!, // tab button hover color
-            haptic: true, // haptic feedback
-            tabBorderRadius: 15,
-            tabActiveBorder:
-                Border.all(color: Colors.black, width: 1), // tab button border
-            tabBorder:
-                Border.all(color: Colors.grey, width: 1), // tab button border
-            tabShadow: [
-              BoxShadow(color: Colors.grey.withOpacity(0.5), blurRadius: 8)
-            ], // tab button shadow
-            curve: Curves.easeOutExpo, // tab animation curves
-            duration:
-                const Duration(milliseconds: 900), // tab animation duration
-            gap: 8, // the tab button gap between icon and text
-            color: Constants.colorGreenLeaf, // unselected icon color
-            activeColor: Colors.purple, // selected icon and text color
-            iconSize: 24, // tab button icon size
-            tabBackgroundColor:
-                Colors.purple.withOpacity(0.1), // selected tab background color
-            padding: const EdgeInsets.symmetric(
-                horizontal: 20, vertical: 5), // navigation bar padding
-            tabs: const [
-              GButton(
-                icon: Icons.home,
-                text: 'Beranda',
-              ),
-              GButton(
-                icon: Icons.question_mark_rounded,
-                text: 'Tanya',
-              ),
-              GButton(
-                icon: Icons.person,
-                text: 'Profilku',
-              )
-            ],
-            selectedIndex: selectedIndex,
-            onTabChange: (index) {
-              setState(() {
-                selectedIndex = index;
-              });
-            },
+          bottomNavigationBar: DecoratedBox(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black.withOpacity(0.2),
+                    offset: const Offset(0, -10),
+                    blurRadius: 8.0)
+              ],
+            ),
+            child: GNav(
+                backgroundColor: Constants.colorGreenLeaf,
+                haptic: true,
+                tabBorderRadius: 15, // tab button shadow
+                curve: Curves.easeOutExpo, // tab animation curves
+                duration:
+                    const Duration(milliseconds: 50), // tab animation duration
+                gap: 2, // the tab button gap between icon and text
+                color: Colors.white38, // unselected icon color
+                activeColor: Colors.white, // selected icon and text color
+                iconSize: 24, // tab button icon size
+                tabBackgroundColor: Colors.purple
+                    .withOpacity(0.1), // selected tab background color
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 20, vertical: 5), // navigation bar padding
+                tabs: const [
+                  GButton(
+                    margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    icon: Icons.home,
+                    text: 'Beranda',
+                  ),
+                  GButton(
+                    margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    icon: Icons.question_mark_rounded,
+                    text: 'Tanya',
+                  ),
+                  GButton(
+                    margin: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
+                    icon: Icons.person,
+                    text: 'Profilku',
+                  )
+                ],
+                selectedIndex: selectedIndex,
+                onTabChange: onButtonPressed),
           ),
         ),
       ),

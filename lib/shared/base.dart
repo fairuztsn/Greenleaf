@@ -10,23 +10,14 @@ class BaseApp {
     final FloatingActionButtonLocation? floatingActionButtonLocation,
   }) {
     return SafeArea(
-      child: Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          // image: DecorationImage(
-          //     image: AssetImage(ImageAssets.puraBg),
-          //     fit: BoxFit.contain,
-          //     alignment: Alignment.bottomCenter),
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        appBar: appBar,
+        body: Container(
+          child: body,
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: appBar,
-          body: Container(
-            child: body,
-          ),
-          floatingActionButton: floatingActionButton,
-          floatingActionButtonLocation: floatingActionButtonLocation,
-        ),
+        floatingActionButton: floatingActionButton,
+        floatingActionButtonLocation: floatingActionButtonLocation,
       ),
     );
   }
@@ -69,7 +60,9 @@ class BaseApp {
                 Text(
                   roleName,
                   style: const TextStyle(
-                      fontWeight: FontWeight.w800, fontSize: 35),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 35,
+                      letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -77,7 +70,7 @@ class BaseApp {
                 ),
                 Text(
                   description,
-                  style: const TextStyle(fontSize: 13),
+                  style: const TextStyle(fontSize: 13, letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -97,7 +90,8 @@ class BaseApp {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
-                        color: Colors.white),
+                        color: Colors.white,
+                        letterSpacing: -1),
                   ),
                 ),
                 const SizedBox(
@@ -105,7 +99,10 @@ class BaseApp {
                 ),
                 const Text(
                   "Belum punya akun? Yuk Daftar",
-                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -126,7 +123,8 @@ class BaseApp {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
-                        color: Constants.colorGreenLeaf),
+                        color: Constants.colorGreenLeaf,
+                        letterSpacing: -1),
                   ),
                 ),
                 const SizedBox(
@@ -134,7 +132,10 @@ class BaseApp {
                 ),
                 const Text(
                   "Dengan masuk atau mendaftar, kamu telah menyetujui",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 Row(
@@ -149,13 +150,16 @@ class BaseApp {
                             style: TextStyle(
                                 color: Constants.colorGreenLeaf,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w300),
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: -1),
                             textAlign: TextAlign.center,
                           )),
                     ),
                     const Text("dan",
                         style: TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.w300)),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: -1)),
                     Flexible(
                       child: TextButton(
                           onPressed: () {},
@@ -164,7 +168,8 @@ class BaseApp {
                             style: TextStyle(
                                 color: Constants.colorGreenLeaf,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w300),
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: -1),
                             textAlign: TextAlign.center,
                           )),
                     ),
@@ -178,16 +183,17 @@ class BaseApp {
     ));
   }
 
-  static Widget loginRegisterBackground({
-    required String states,
-    required List<Widget> children,
-    required String linkable,
-    required VoidCallback toLinkable,
-    required VoidCallback lanjut,
-  }) {
+  static Widget loginRegisterBackground(
+      {required String states,
+      required List<Widget> children,
+      required String linkable,
+      required VoidCallback toLinkable,
+      required VoidCallback lanjut,
+      required String submit,
+      required GlobalKey<FormState> formKey}) {
     return standardBackground(
         body: Center(
-            child: ListView(children: [
+            child: ListView(shrinkWrap: true, children: [
       const SizedBox(
         height: 50,
       ),
@@ -201,7 +207,8 @@ class BaseApp {
       ),
       Text(
         states,
-        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+        style: const TextStyle(
+            fontWeight: FontWeight.w800, fontSize: 20, letterSpacing: -1),
         textAlign: TextAlign.center,
       ),
       const SizedBox(
@@ -209,8 +216,11 @@ class BaseApp {
       ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
-        child: Column(
-          children: children,
+        child: Form(
+          key: formKey,
+          child: Column(
+            children: children,
+          ),
         ),
       ),
       const SizedBox(
@@ -224,15 +234,19 @@ class BaseApp {
       const SizedBox(
         height: 10,
       ),
-      TextButton(
-          onPressed: toLinkable,
-          child: Text(
-            linkable,
-            style: const TextStyle(
-                color: Constants.colorGreenLeaf,
-                fontSize: 10,
-                fontWeight: FontWeight.w300),
-          )),
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
+        child: TextButton(
+            onPressed: toLinkable,
+            child: Text(
+              linkable,
+              style: const TextStyle(
+                  color: Constants.colorGreenLeaf,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w300,
+                  letterSpacing: -1),
+            )),
+      ),
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 0),
         child: ElevatedButton(
@@ -242,13 +256,30 @@ class BaseApp {
               shape: const RoundedRectangleBorder(
                   side: BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.all(Radius.circular(20)))),
-          child: const Text(
-            "Lanjut",
-            style: TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white),
+          child: Text(
+            submit,
+            style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+                letterSpacing: -1),
           ),
         ),
       ),
     ])));
+  }
+
+  static Widget inAppBackground({required Widget body}) {
+    return standardBackground(
+        appBar: AppBar(
+          automaticallyImplyLeading: true,
+          title: Image.asset(
+            ImageAssets.loginRegisterLogo,
+            height: 50,
+            width: 50,
+          ),
+          centerTitle: true,
+        ),
+        body: body);
   }
 }

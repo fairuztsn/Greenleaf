@@ -1,25 +1,35 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:greenleaf/controller/auth_controller.dart';
+import 'package:greenleaf/models/ad_profile.dart';
+import 'package:greenleaf/provider/common/user_profile.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/shared/const.dart';
+import 'package:greenleaf/utils/snackbar.dart';
+import 'package:greenleaf/views/navbar/navbar.dart';
 import 'package:greenleaf/views/register/help/help.dart';
-import 'package:greenleaf/views/register/second_step.dart/second_register.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
-class RegisterScreen extends ConsumerStatefulWidget {
-  const RegisterScreen({super.key});
+class SecondRegisterScreen extends ConsumerStatefulWidget {
+  final String email;
+  final String phone;
+  final String password;
+  const SecondRegisterScreen({
+    super.key,
+    required this.email,
+    required this.phone,
+    required this.password,
+  });
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _RegisterScreenState();
+  ConsumerState<ConsumerStatefulWidget> createState() =>
+      _SecondRegisterScreenState();
 }
 
-class _RegisterScreenState extends ConsumerState<RegisterScreen> {
-  TextEditingController email = TextEditingController();
-  TextEditingController password = TextEditingController();
-  TextEditingController phone = TextEditingController();
+class _SecondRegisterScreenState extends ConsumerState<SecondRegisterScreen> {
   TextEditingController firstName = TextEditingController();
   TextEditingController lastName = TextEditingController();
-  bool isPasswordObscured = true;
   final formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
@@ -33,12 +43,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             TextFormField(
               validator: ((val) {
                 if (val!.isEmpty) {
-                  return 'Please Fill The Email Correctly!';
+                  return 'Please Fill The Name Correctly!';
                 }
                 return null;
               }),
-              controller: email,
-              keyboardType: TextInputType.emailAddress,
+              controller: firstName,
+              keyboardType: TextInputType.name,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide:
@@ -49,7 +59,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           width: 1, color: Constants.colorGreenLeaf),
                       borderRadius: BorderRadius.circular(10)),
                   label: const Text(
-                    "Email",
+                    "First Name",
                     style: TextStyle(fontSize: 14, color: Colors.black),
                   )),
             ),
@@ -59,12 +69,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
             TextFormField(
               validator: ((val) {
                 if (val!.isEmpty) {
-                  return 'Please Fill The Phone Number Correctly!';
+                  return 'Please Fill The Name Correctly!';
                 }
                 return null;
               }),
-              controller: phone,
-              keyboardType: TextInputType.phone,
+              controller: lastName,
+              keyboardType: TextInputType.name,
               decoration: InputDecoration(
                   enabledBorder: OutlineInputBorder(
                       borderSide:
@@ -75,51 +85,12 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           width: 1, color: Constants.colorGreenLeaf),
                       borderRadius: BorderRadius.circular(10)),
                   label: const Text(
-                    "Phone",
+                    "Last Name",
                     style: TextStyle(fontSize: 14, color: Colors.black),
                   )),
             ),
             const SizedBox(
               height: 20,
-            ),
-            TextFormField(
-              validator: ((val) {
-                if (val!.isEmpty) {
-                  return 'Please Fill The Password';
-                }
-                return null;
-              }),
-              controller: password,
-              obscureText: isPasswordObscured,
-              decoration: InputDecoration(
-                enabledBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(width: 1, color: Colors.black),
-                    borderRadius: BorderRadius.circular(10)),
-                focusedBorder: OutlineInputBorder(
-                    borderSide: const BorderSide(
-                        width: 1, color: Constants.colorGreenLeaf),
-                    borderRadius: BorderRadius.circular(10)),
-                label: const Text(
-                  "Password",
-                  style: TextStyle(fontSize: 14, color: Colors.black),
-                ),
-                suffixIcon: IconButton(
-                  onPressed: () {
-                    setState(() {
-                      if (isPasswordObscured) {
-                        isPasswordObscured = false;
-                      } else {
-                        isPasswordObscured = true;
-                      }
-                    });
-                  },
-                  icon: Icon(
-                      isPasswordObscured == true
-                          ? Icons.visibility_off_rounded
-                          : Icons.visibility_rounded,
-                      color: Constants.colorGreenLeaf),
-                ),
-              ),
             ),
           ],
           linkable: "Ada kendala?",
@@ -141,21 +112,48 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           backgroundColor: Constants.colorGreenLeaf,
                         ),
                       ));
-              Future.delayed(const Duration(milliseconds: 1500), () {
-                navigator.pushReplacement(
-                  PageTransition(
-                      child: SecondRegisterScreen(
-                        email: email.text,
-                        phone: phone.text,
-                        password: password.text,
-                      ),
-                      type: PageTransitionType.rightToLeft),
-                );
+              Future.delayed(const Duration(milliseconds: 1500), () async {
+                try {
+                  await ref
+                      .read(authControllerProvider.notifier)
+                      .emailPassUserSignUp(
+                          email: widget.email,
+                          password: widget.password,
+                          userProfile: UserProfile(
+                              email: widget.email,
+                              phoneNumber: widget.phone,
+                              firstName: firstName.text,
+                              lastName: lastName.text,
+                              role: 1,
+                              privilege: "Peasant"));
+                  if (mounted) {
+                    Snackbars.showSuccessSnackbar(context,
+                        title: "Register Success",
+                        message: "Welcome to GreenLeaf");
+                    navigator.popUntil((route) => route.isFirst);
+                    navigator.pushReplacement(PageTransition(
+                        child: const Navbar(), type: PageTransitionType.fade));
+                  }
+                } on AuthException catch (e) {
+                  if (mounted) {
+                    navigator.pop();
+                    Snackbars.showFailedSnackbar(context,
+                        title: "Register Failed", message: e.toString());
+                  }
+                } catch (e) {
+                  if (mounted) {
+                    navigator.pop();
+                    Snackbars.showFailedSnackbar(context,
+                        title: "Unknown error occured", message: e.toString());
+                  }
+                } finally {
+                  ref.read(userProfileProvider);
+                }
               });
             }
             setState(() {});
           },
-          submit: "Lanjut",
+          submit: "Daftar",
           formKey: formKey),
     );
   }

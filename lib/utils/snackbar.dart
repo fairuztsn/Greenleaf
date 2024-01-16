@@ -23,13 +23,13 @@ class Snackbars {
           ),
         ),
         duration: duration ?? const Duration(milliseconds: 3500),
-        animateFrom: AnimateFrom.fromBottom,
+        animateFrom: AnimateFrom.fromTop,
         backgroundColor: Colors.green,
         titleWidget: Text(
           title,
           style: const TextStyle(
             color: Colors.white,
-            fontFamily: 'Poppins',
+            fontFamily: 'Mulish',
             fontWeight: FontWeight.w700,
             fontSize: 16,
           ),
@@ -66,14 +66,14 @@ class Snackbars {
           color: Colors.white,
         ),
       ),
-      animateFrom: AnimateFrom.fromBottom,
+      animateFrom: AnimateFrom.fromTop,
       duration: duration ?? const Duration(milliseconds: 3500),
       backgroundColor: Colors.red,
       titleWidget: Text(
         title,
         style: const TextStyle(
             color: Colors.white,
-            fontFamily: 'Poppins',
+            fontFamily: 'Mulish',
             fontWeight: FontWeight.w700),
       ),
       subTitleWidget: SizedBox(
@@ -112,14 +112,14 @@ class Snackbars {
           color: Colors.white,
         ),
       ),
-      animateFrom: AnimateFrom.fromBottom,
+      animateFrom: AnimateFrom.fromTop,
       duration: const Duration(milliseconds: 3500),
       backgroundColor: Colors.blue,
       titleWidget: Text(
         title,
         style: const TextStyle(
             color: Colors.white,
-            fontFamily: 'Poppins',
+            fontFamily: 'Mulish',
             fontWeight: FontWeight.w700),
       ),
       subTitleWidget: Padding(
@@ -150,14 +150,14 @@ class Snackbars {
             color: Colors.white.withOpacity(0.2),
           ),
           child: const Icon(Icons.warning)),
-      animateFrom: AnimateFrom.fromBottom,
+      animateFrom: AnimateFrom.fromTop,
       duration: const Duration(milliseconds: 3500),
       backgroundColor: Colors.yellow,
       titleWidget: Text(
         title,
         style: const TextStyle(
             color: Colors.white,
-            fontFamily: 'Poppins',
+            fontFamily: 'Mulish',
             fontWeight: FontWeight.w700),
       ),
       subTitleWidget: Padding(
