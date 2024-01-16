@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/controller/auth_controller.dart';
 import 'package:greenleaf/models/ad_profile.dart';
+import 'package:greenleaf/provider/common/user_profile.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/shared/const.dart';
 import 'package:greenleaf/utils/snackbar.dart';
@@ -119,11 +120,12 @@ class _SecondRegisterScreenState extends ConsumerState<SecondRegisterScreen> {
                           email: widget.email,
                           password: widget.password,
                           userProfile: UserProfile(
-                            email: widget.email,
-                            phoneNumber: widget.phone,
-                            firstName: firstName.text,
-                            lastName: lastName.text,
-                          ));
+                              email: widget.email,
+                              phoneNumber: widget.phone,
+                              firstName: firstName.text,
+                              lastName: lastName.text,
+                              role: 1,
+                              privilege: "Peasant"));
                   if (mounted) {
                     Snackbars.showSuccessSnackbar(context,
                         title: "Register Success",
@@ -144,6 +146,8 @@ class _SecondRegisterScreenState extends ConsumerState<SecondRegisterScreen> {
                     Snackbars.showFailedSnackbar(context,
                         title: "Unknown error occured", message: e.toString());
                   }
+                } finally {
+                  ref.read(userProfileProvider);
                 }
               });
             }

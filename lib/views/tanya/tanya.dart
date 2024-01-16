@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:greenleaf/provider/common/app_tanya.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/shared/const.dart';
 import 'package:greenleaf/views/tanya/tanya_search.dart';
@@ -14,7 +15,14 @@ class TanyaScreen extends ConsumerStatefulWidget {
 
 class _TanyaScreenState extends ConsumerState<TanyaScreen> {
   @override
+  void initState() {
+    super.initState();
+    ref.read(tanyaProvider);
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final faq = ref.watch(tanyaProvider).value;
     return BaseApp.inAppBackground(
         body: Center(
       child: Padding(
@@ -44,33 +52,32 @@ class _TanyaScreenState extends ConsumerState<TanyaScreen> {
           const SizedBox(
             height: 20,
           ),
-          const Column(
-            children: [
-              ExpansionTile(
-                title: Text(
-                  "Apakah memelihara maggot sulit?",
-                  style: TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
-                ),
-                collapsedIconColor: Constants.colorGreenLeaf,
-                iconColor: Constants.colorGreenLeaf,
-                subtitle: Text(
-                  "Ditanyakan oleh 1.000 pengguna",
-                  style: TextStyle(fontSize: 8),
-                ),
-                children: [
-                  ListTile(
+          Column(
+            children: faq!
+                .map(
+                  (e) => ExpansionTile(
                     title: Text(
-                      "Lorem Ipsum Dolor Sit Amet",
-                      style:
-                          TextStyle(fontSize: 12, fontWeight: FontWeight.w800),
+                      e.question.toString(),
+                      style: const TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w800,
+                          letterSpacing: -0.5),
                     ),
+                    collapsedIconColor: Constants.colorGreenLeaf,
+                    iconColor: Constants.colorGreenLeaf,
                     subtitle: Text(
-                        "Lorem Ipsum Dolor Sit Amet, Consectectur Adispiscing Elit",
-                        style: TextStyle(fontSize: 8)),
-                  )
-                ],
-              ),
-            ],
+                      e.subquestion.toString(),
+                      style: const TextStyle(fontSize: 8, letterSpacing: -0.5),
+                    ),
+                    children: [
+                      ListTile(
+                        subtitle: Text(e.answer.toString(),
+                            style: const TextStyle(fontSize: 8)),
+                      )
+                    ],
+                  ),
+                )
+                .toList(),
           )
         ]),
       ),

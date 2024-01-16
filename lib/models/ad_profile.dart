@@ -13,23 +13,23 @@ class UserProfile extends Equatable {
   final String? homeCity;
   final String? homeProvince;
   final String? photoProfile;
-  final String? role;
+  final int? role;
   final String? privilege;
 
   const UserProfile({
-     this.firstName,
-     this.lastName,
-     this.email,
-     this.phoneNumber,
-     this.homeStreet,
-     this.homeCity,
-     this.homeProvince,
-     this.photoProfile,
-     this.role,
-     this.privilege,
-     this.id,
-     this.userId,
-});
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.phoneNumber,
+    this.homeStreet,
+    this.homeCity,
+    this.homeProvince,
+    this.photoProfile,
+    this.role,
+    this.privilege,
+    this.id,
+    this.userId,
+  });
 
   UserProfile copyWith({
     int? id,
@@ -42,7 +42,7 @@ class UserProfile extends Equatable {
     String? homeCity,
     String? homeProvince,
     String? photoProfile,
-    String? role,
+    int? role,
     String? privilege,
   }) {
     return UserProfile(
@@ -62,9 +62,17 @@ class UserProfile extends Equatable {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      'user_id': userId,
       'first_name': firstName,
       'last_name': lastName,
+      'email': email,
+      'phone_number': phoneNumber,
+      'home_street': homeStreet,
+      'home_city': homeCity,
+      'home_province': homeProvince,
+      'photo_profile': photoProfile,
+      'role_id': role,
+      'privilege_id': privilege
     };
   }
 
@@ -78,8 +86,8 @@ class UserProfile extends Equatable {
         homeCity: map['home_city'],
         homeProvince: map['home_province'],
         photoProfile: map['photo_profile'],
-        role: map['role'],
-        privilege: map['privilege'],
+        role: map['role_id'],
+        privilege: map['privilege_id'],
         id: map['id'],
         userId: map['user_id']);
   }
@@ -89,17 +97,17 @@ class UserProfile extends Equatable {
 
   @override
   List<Object?> get props => [
-    id,
-    userId,
-    firstName,
-    lastName,
-    email,
-    phoneNumber,
-    homeStreet,
-    homeCity,
-    homeProvince,
-    photoProfile,
-    role,
-    privilege
-  ];
+        id,
+        userId,
+        firstName,
+        lastName,
+        email,
+        phoneNumber,
+        homeStreet,
+        homeCity,
+        homeProvince,
+        photoProfile,
+        role,
+        privilege
+      ];
 }

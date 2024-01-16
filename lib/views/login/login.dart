@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/controller/auth_controller.dart';
+import 'package:greenleaf/provider/common/user_profile.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/shared/const.dart';
 import 'package:greenleaf/utils/snackbar.dart';
@@ -121,28 +122,37 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ));
               try {
-                // await ref.read(authControllerProvider.notifier).emailPassSignIn(
-                //     email: email.text, password: password.text);
+                await ref
+                    .read(authControllerProvider.notifier)
+                    .emailPassUserSignIn(
+                        email: email.text, password: password.text);
                 if (mounted) {
-                  Snackbars.showSuccessSnackbar(context,
-                      title: "Login Success", message: "Welcome to GreenLeaf");
+                  navigator.popUntil((route) => route.isFirst);
+                  navigator.pushReplacement(PageTransition(
+                      child: const Navbar(), type: PageTransitionType.fade));
                 }
-
-                navigator.popUntil((route) => route.isFirst);
-                navigator.pushReplacement(PageTransition(
-                    child: const Navbar(), type: PageTransitionType.fade));
               } on AuthException catch (e) {
-                if (mounted) {
+                if (mounted && e.message.contains("Invalid")) {
                   navigator.pop();
                   Snackbars.showFailedSnackbar(context,
-                      title: "Login Failed", message: e.toString());
+                      title: "Login Failed",
+                      message: "Email atau Password Salah!");
+                }
+              } on PostgrestException catch (e) {
+                if (mounted && e.message.contains("rows")) {
+                  navigator.pop();
+                  Snackbars.showFailedSnackbar(context,
+                      title: "Error occured", message: "Data tidak ditemukan");
                 }
               } catch (e) {
                 if (mounted) {
                   navigator.pop();
                   Snackbars.showFailedSnackbar(context,
-                      title: "Unknown error occured", message: e.toString());
+                      title: "Unknown Error occured", message: e.toString());
+                  print(e);
                 }
+              } finally {
+                ref.read(userProfileProvider);
               }
             }
             setState(() {});

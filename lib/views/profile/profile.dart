@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:greenleaf/controller/auth_controller.dart';
+import 'package:greenleaf/provider/common/app_features.dart';
+import 'package:greenleaf/provider/common/user_profile.dart';
 import 'package:greenleaf/res/assets.dart';
 import 'package:greenleaf/shared/base.dart';
+import 'package:greenleaf/shared/const.dart';
+import 'package:greenleaf/utils/snackbar.dart';
+import 'package:greenleaf/views/onboarding/onboarding.dart';
+import 'package:page_transition/page_transition.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -13,6 +20,7 @@ class ProfileScreen extends ConsumerStatefulWidget {
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
+    final userProfile = ref.watch(userProfileProvider).value;
     return BaseApp.inAppBackground(
         body: Center(
       child: Padding(
@@ -32,11 +40,17 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             child: Row(
               children: [
                 ClipOval(
-                  child: Image.asset(
-                    ImageAssets.loginRegisterLogo,
-                    height: 50,
-                    width: 50,
-                  ),
+                  child: userProfile!.photoProfile != null
+                      ? Image.network(
+                          userProfile.photoProfile.toString(),
+                          height: 50,
+                          width: 50,
+                        )
+                      : Image.asset(
+                          ImageAssets.loginRegisterLogo,
+                          height: 50,
+                          width: 50,
+                        ),
                 ),
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,9 +61,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width * 0.19,
-                          child: const Text(
-                            "Annisa Simanjuntak",
-                            style: TextStyle(
+                          child: Text(
+                            userProfile.firstName.toString() +
+                                userProfile.lastName.toString(),
+                            style: const TextStyle(
                                 fontSize: 15, fontWeight: FontWeight.w800),
                             maxLines: 2,
                             overflow: TextOverflow.fade,
@@ -65,9 +80,9 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.19,
-                      child: const Text(
-                        "annnisa@gmail.com",
-                        style: TextStyle(
+                      child: Text(
+                        userProfile.email.toString(),
+                        style: const TextStyle(
                           fontSize: 8,
                         ),
                         maxLines: 1,
@@ -76,9 +91,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.19,
-                      child: const Text(
-                        "+62893842099103",
-                        style: TextStyle(
+                      child: Text(
+                        userProfile.phoneNumber == null
+                            ? ""
+                            : userProfile.phoneNumber.toString(),
+                        style: const TextStyle(
                           fontSize: 8,
                         ),
                         maxLines: 1,
@@ -97,7 +114,12 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                 const SizedBox(
                   width: 20,
                 ),
-                const Flexible(child: Text("Jl. Telyu no 1 Sukapura"))
+                Flexible(
+                    child: Text(userProfile.homeStreet == null &&
+                            userProfile.homeCity == null
+                        ? ""
+                        : userProfile.homeStreet.toString() +
+                            userProfile.homeCity.toString()))
               ],
             ),
           ),
@@ -163,6 +185,27 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   onPressed: () {},
                   child: const Row(
                     children: [
+                      Icon(Icons.security),
+                      SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        "Keamanan Akun",
+                        style: TextStyle(color: Colors.black),
+                      )
+                    ],
+                  ))
+            ],
+          ),
+          Row(
+            children: [
+              TextButton(
+                  style: TextButton.styleFrom(
+                    iconColor: Colors.black,
+                  ),
+                  onPressed: () {},
+                  child: const Row(
+                    children: [
                       Icon(Icons.notifications),
                       SizedBox(
                         width: 5,
@@ -202,7 +245,37 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                   style: TextButton.styleFrom(
                     iconColor: Colors.black,
                   ),
-                  onPressed: () {},
+                  onPressed: () async {
+                    final navigator = Navigator.of(context);
+                    showDialog(
+                        context: context,
+                        barrierDismissible: false,
+                        builder: (context) => const Center(
+                              child: CircularProgressIndicator.adaptive(
+                                backgroundColor: Constants.colorGreenLeaf,
+                              ),
+                            ));
+                    try {
+                      await ref
+                          .read(authControllerProvider.notifier)
+                          .signOutAllUsers();
+                      ref.invalidate(userProfileProvider);
+                      ref.invalidate(featuresProvider);
+
+                      if (mounted) {
+                        navigator.popUntil((route) => route.isFirst);
+                        navigator.pushReplacement(PageTransition(
+                            child: const OnBoardingScreen(),
+                            type: PageTransitionType.fade));
+                      }
+                    } catch (e) {
+                      if (mounted) {
+                        navigator.pop();
+                        Snackbars.showFailedSnackbar(context,
+                            title: "Error occured", message: e.toString());
+                      }
+                    }
+                  },
                   child: const Row(
                     children: [
                       Icon(Icons.logout),

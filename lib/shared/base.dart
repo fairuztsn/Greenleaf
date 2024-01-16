@@ -60,7 +60,9 @@ class BaseApp {
                 Text(
                   roleName,
                   style: const TextStyle(
-                      fontWeight: FontWeight.w800, fontSize: 35),
+                      fontWeight: FontWeight.w800,
+                      fontSize: 35,
+                      letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -68,7 +70,7 @@ class BaseApp {
                 ),
                 Text(
                   description,
-                  style: const TextStyle(fontSize: 13),
+                  style: const TextStyle(fontSize: 13, letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -88,7 +90,8 @@ class BaseApp {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
-                        color: Colors.white),
+                        color: Colors.white,
+                        letterSpacing: -1),
                   ),
                 ),
                 const SizedBox(
@@ -96,7 +99,10 @@ class BaseApp {
                 ),
                 const Text(
                   "Belum punya akun? Yuk Daftar",
-                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                      fontSize: 8,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -117,7 +123,8 @@ class BaseApp {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
-                        color: Constants.colorGreenLeaf),
+                        color: Constants.colorGreenLeaf,
+                        letterSpacing: -1),
                   ),
                 ),
                 const SizedBox(
@@ -125,7 +132,10 @@ class BaseApp {
                 ),
                 const Text(
                   "Dengan masuk atau mendaftar, kamu telah menyetujui",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 Row(
@@ -140,13 +150,16 @@ class BaseApp {
                             style: TextStyle(
                                 color: Constants.colorGreenLeaf,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w300),
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: -1),
                             textAlign: TextAlign.center,
                           )),
                     ),
                     const Text("dan",
                         style: TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.w300)),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: -1)),
                     Flexible(
                       child: TextButton(
                           onPressed: () {},
@@ -155,7 +168,8 @@ class BaseApp {
                             style: TextStyle(
                                 color: Constants.colorGreenLeaf,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w300),
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: -1),
                             textAlign: TextAlign.center,
                           )),
                     ),
@@ -193,7 +207,8 @@ class BaseApp {
       ),
       Text(
         states,
-        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 20),
+        style: const TextStyle(
+            fontWeight: FontWeight.w800, fontSize: 20, letterSpacing: -1),
         textAlign: TextAlign.center,
       ),
       const SizedBox(
@@ -228,7 +243,8 @@ class BaseApp {
               style: const TextStyle(
                   color: Constants.colorGreenLeaf,
                   fontSize: 10,
-                  fontWeight: FontWeight.w300),
+                  fontWeight: FontWeight.w300,
+                  letterSpacing: -1),
             )),
       ),
       Padding(
@@ -243,7 +259,10 @@ class BaseApp {
           child: Text(
             submit,
             style: const TextStyle(
-                fontSize: 20, fontWeight: FontWeight.w800, color: Colors.white),
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: Colors.white,
+                letterSpacing: -1),
           ),
         ),
       ),

@@ -23,7 +23,7 @@ class Snackbars {
           ),
         ),
         duration: duration ?? const Duration(milliseconds: 3500),
-        animateFrom: AnimateFrom.fromBottom,
+        animateFrom: AnimateFrom.fromTop,
         backgroundColor: Colors.green,
         titleWidget: Text(
           title,
@@ -66,7 +66,7 @@ class Snackbars {
           color: Colors.white,
         ),
       ),
-      animateFrom: AnimateFrom.fromBottom,
+      animateFrom: AnimateFrom.fromTop,
       duration: duration ?? const Duration(milliseconds: 3500),
       backgroundColor: Colors.red,
       titleWidget: Text(
@@ -112,7 +112,7 @@ class Snackbars {
           color: Colors.white,
         ),
       ),
-      animateFrom: AnimateFrom.fromBottom,
+      animateFrom: AnimateFrom.fromTop,
       duration: const Duration(milliseconds: 3500),
       backgroundColor: Colors.blue,
       titleWidget: Text(
@@ -150,7 +150,7 @@ class Snackbars {
             color: Colors.white.withOpacity(0.2),
           ),
           child: const Icon(Icons.warning)),
-      animateFrom: AnimateFrom.fromBottom,
+      animateFrom: AnimateFrom.fromTop,
       duration: const Duration(milliseconds: 3500),
       backgroundColor: Colors.yellow,
       titleWidget: Text(

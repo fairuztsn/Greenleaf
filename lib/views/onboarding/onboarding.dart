@@ -36,7 +36,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
               children: [
                 const Text(
                   "Selamat Datang di GreenLeaf",
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 25),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 25,
+                      letterSpacing: -1.5),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -44,7 +47,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
                 const Text(
                   "Aplikasi dengan inovasi pertama di\nIndonesia #1 yang langsung\nmenjemput sampah anorganikmu di\ndepan pintu dan mendapat penghasilan",
-                  style: TextStyle(fontWeight: FontWeight.w300, fontSize: 13),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w300,
+                      fontSize: 13,
+                      letterSpacing: -1),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -52,7 +58,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
                 const Text(
                   "Yuk pilih dulu nih, kamu yang mana?",
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 13),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 13,
+                      letterSpacing: -0.5),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(
@@ -60,7 +69,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
                 const Text(
                   "Untuk kamu yang ingin sampahnya dijemput",
-                  style: TextStyle(fontWeight: FontWeight.w200, fontSize: 8),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w200,
+                      fontSize: 8,
+                      letterSpacing: -0.5),
                   textAlign: TextAlign.center,
                 ),
                 ElevatedButton(
@@ -109,14 +121,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   height: 10,
                 ),
                 const Text("Atau",
-                    style:
-                        TextStyle(fontWeight: FontWeight.w300, fontSize: 13)),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 13,
+                        letterSpacing: -1)),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
                   "Untuk kamu yang ingin menjalin kerjasama",
-                  style: TextStyle(fontWeight: FontWeight.w200, fontSize: 8),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w200,
+                      fontSize: 8,
+                      letterSpacing: -0.5),
                   textAlign: TextAlign.center,
                 ),
                 ElevatedButton(
@@ -165,14 +182,19 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   height: 10,
                 ),
                 const Text("Atau",
-                    style:
-                        TextStyle(fontWeight: FontWeight.w300, fontSize: 13)),
+                    style: TextStyle(
+                        fontWeight: FontWeight.w300,
+                        fontSize: 13,
+                        letterSpacing: -1)),
                 const SizedBox(
                   height: 10,
                 ),
                 const Text(
                   "Untuk kamu yang ingin menjadi mitra kami",
-                  style: TextStyle(fontWeight: FontWeight.w200, fontSize: 8),
+                  style: TextStyle(
+                      fontWeight: FontWeight.w200,
+                      fontSize: 8,
+                      letterSpacing: -0.5),
                   textAlign: TextAlign.center,
                 ),
                 ElevatedButton(
@@ -222,7 +244,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                 ),
                 const Text(
                   "Dengan masuk atau mendaftar, kamu telah menyetujui",
-                  style: TextStyle(fontSize: 10, fontWeight: FontWeight.w300),
+                  style: TextStyle(
+                      fontSize: 10,
+                      fontWeight: FontWeight.w300,
+                      letterSpacing: -0.5),
                   textAlign: TextAlign.center,
                 ),
                 Row(
@@ -236,13 +261,16 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             style: TextStyle(
                                 color: Constants.colorGreenLeaf,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w300),
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: -1),
                             textAlign: TextAlign.center,
                           )),
                     ),
                     const Text("dan",
                         style: TextStyle(
-                            fontSize: 10, fontWeight: FontWeight.w300)),
+                            fontSize: 10,
+                            fontWeight: FontWeight.w300,
+                            letterSpacing: -0.5)),
                     Flexible(
                       child: TextButton(
                           onPressed: () {},
@@ -251,7 +279,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                             style: TextStyle(
                                 color: Constants.colorGreenLeaf,
                                 fontSize: 15,
-                                fontWeight: FontWeight.w300),
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: -1),
                             textAlign: TextAlign.center,
                           )),
                     ),

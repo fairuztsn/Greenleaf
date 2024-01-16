@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:greenleaf/res/strings.dart';
-import 'package:greenleaf/views/onboarding/onboarding.dart';
+import 'package:greenleaf/splash/splash.dart';
+import 'package:greenleaf/views/app/GreenPeople/greencarry.dart';
+import 'package:greenleaf/views/app/GreenPeople/greenmarket.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/environment/env.dart';
@@ -30,13 +32,18 @@ class GreenLeafApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-        title: AppStrings.appName,
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(fontFamily: "Mulish"),
-        home: ScrollConfiguration(
-          behavior: MyBehavior(),
-          child: const OnBoardingScreen(),
-        ));
+      title: AppStrings.appName,
+      debugShowCheckedModeBanner: false,
+      theme: ThemeData(fontFamily: "Mulish"),
+      home: ScrollConfiguration(
+        behavior: MyBehavior(),
+        child: const Splash(),
+      ),
+      routes: {
+        '/app/green-carry': (context) => const GreenCarryScreen(),
+        '/app/green-market': (context) => const GreenMarketScreen()
+      },
+    );
   }
 }
 
