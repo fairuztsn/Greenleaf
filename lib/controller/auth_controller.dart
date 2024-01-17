@@ -18,7 +18,7 @@ class AuthController extends StateNotifier<UserProfile> {
         .signInWithPassword(email: email, password: password);
     final User? user = credential.user;
     if (user != null) {
-      await getUsersData(uid: user.id, role: 1);
+      final data = await getUsersData(uid: user.id, role: 1);
 
       await supabase.from('ad_login_history').insert({
         'user_id': user.id,
@@ -26,7 +26,7 @@ class AuthController extends StateNotifier<UserProfile> {
         'host_name': hostname,
         'ip': ipAddr.first.address
       });
-      return;
+      state = data;
     }
     return;
   }
@@ -107,6 +107,33 @@ class AuthController extends StateNotifier<UserProfile> {
     }
   }
 
+  FutureVoid emailPassWorkerSignUp(
+      {required String email,
+      required String password,
+      required UserProfile userProfile}) async {
+    final ipAddr =
+        await InternetAddress.lookup(hostname, type: InternetAddressType.IPv4);
+    var credential =
+        await supabase.auth.signUp(email: email, password: password);
+    final User? user = credential.user;
+    if (user != null) {
+      UserProfile temp = userProfile.copyWith(userId: user.id);
+      final Map<String, dynamic> data = await supabase
+          .from("ad_profile_data")
+          .insert(temp.toMap())
+          .select()
+          .single();
+      UserProfile userData = UserProfile.fromMap(data);
+      await supabase.from('ad_login_history').insert({
+        'user_id': user.id,
+        'last_logged_in': DateTime.now().toIso8601String(),
+        'host_name': hostname,
+        'ip': ipAddr.first.address
+      });
+      state = userData;
+    }
+  }
+
   FutureVoid signOutAllUsers() async {
     final currentSession = supabase.auth.currentSession;
     final currentUser = supabase.auth.currentUser;
@@ -114,10 +141,24 @@ class AuthController extends StateNotifier<UserProfile> {
       return;
     } else {
       await supabase.auth.signOut();
+      state = const UserProfile(
+          email: "",
+          firstName: "",
+          homeCity: "",
+          homeProvince: "",
+          homeStreet: "",
+          id: null,
+          lastName: "",
+          phoneNumber: "",
+          photoProfile: "",
+          privilege: "",
+          role: null,
+          userId: "");
     }
   }
 
-  FutureVoid getUsersData({required String uid, required int role}) async {
+  Future<UserProfile> getUsersData(
+      {required String uid, required int role}) async {
     final supabase = Supabase.instance.client;
     var getUsers = await supabase
         .from('ad_profile_data')
@@ -127,6 +168,7 @@ class AuthController extends StateNotifier<UserProfile> {
         .single();
     final user = UserProfile.fromMap(getUsers);
     state = user;
+    return user;
   }
 }
 

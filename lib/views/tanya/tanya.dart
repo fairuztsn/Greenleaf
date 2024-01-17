@@ -18,11 +18,20 @@ class _TanyaScreenState extends ConsumerState<TanyaScreen> {
   void initState() {
     super.initState();
     ref.read(tanyaProvider);
+    // getDatas();
   }
+
+  // Future getDatas() async {
+  //   await ref.watch(tanyaProvider.future).then((value) {
+  //     setState(() {
+  //       faq = value;
+  //     });
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
-    final faq = ref.watch(tanyaProvider).value;
+    final faq = ref.watch(tanyaProvider);
     return BaseApp.inAppBackground(
         body: Center(
       child: Padding(
@@ -32,6 +41,7 @@ class _TanyaScreenState extends ConsumerState<TanyaScreen> {
               style: OutlinedButton.styleFrom(
                   side: const BorderSide(color: Constants.colorGreenLeaf)),
               onPressed: () {
+                ref.read(tanyaProvider);
                 Navigator.push(
                     context,
                     PageTransition(
@@ -53,7 +63,7 @@ class _TanyaScreenState extends ConsumerState<TanyaScreen> {
             height: 20,
           ),
           Column(
-            children: faq!
+            children: faq
                 .map(
                   (e) => ExpansionTile(
                     title: Text(

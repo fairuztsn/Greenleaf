@@ -1,16 +1,20 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:greenleaf/controller/auth_controller.dart';
 import 'package:greenleaf/models/ad_profile.dart';
 import 'package:greenleaf/provider/common/session_user.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
-final userProfileProvider = FutureProvider<UserProfile>((ref) async {
-  final supabase = Supabase.instance.client;
+final userProfileProvider = StateProvider<UserProfile>((ref) {
   final currentUser = ref.watch(userDataProvider);
-  final userProfile = await supabase
-      .from('ad_profile_data')
-      .select()
-      .eq('user_id', currentUser!.id)
-      .eq('role_id', 1)
-      .single();
-  return UserProfile.fromMap(userProfile);
+  ref
+      .read(authControllerProvider.notifier)
+      .getUsersData(uid: currentUser!.id, role: 1);
+  return ref.watch(authControllerProvider);
+});
+
+final workerProfileProvider = StateProvider<UserProfile>((ref) {
+  final currentUser = ref.watch(userDataProvider);
+  ref
+      .read(authControllerProvider.notifier)
+      .getUsersData(uid: currentUser!.id, role: 2);
+  return ref.watch(authControllerProvider);
 });

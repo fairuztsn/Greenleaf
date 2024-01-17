@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/controller/auth_controller.dart';
+import 'package:greenleaf/models/ad_profile.dart';
 import 'package:greenleaf/provider/common/app_features.dart';
+import 'package:greenleaf/provider/common/check_auth_state.dart';
+import 'package:greenleaf/provider/common/session_user.dart';
 import 'package:greenleaf/provider/common/user_profile.dart';
 import 'package:greenleaf/res/assets.dart';
 import 'package:greenleaf/shared/base.dart';
@@ -19,8 +22,13 @@ class ProfileScreen extends ConsumerStatefulWidget {
 
 class _ProfileScreenState extends ConsumerState<ProfileScreen> {
   @override
+  void initState() {
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final userProfile = ref.watch(userProfileProvider).value;
+    UserProfile userProfile = ref.watch(userProfileProvider);
     return BaseApp.inAppBackground(
         body: Center(
       child: Padding(
@@ -40,14 +48,16 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
             child: Row(
               children: [
                 ClipOval(
-                  child: userProfile!.photoProfile != null
-                      ? Image.network(
-                          userProfile.photoProfile.toString(),
+                  child: userProfile.photoProfile == null ||
+                          userProfile.photoProfile!.isEmpty ||
+                          userProfile.photoProfile! == "None"
+                      ? Image.asset(
+                          ImageAssets.loginRegisterLogo,
                           height: 50,
                           width: 50,
                         )
-                      : Image.asset(
-                          ImageAssets.loginRegisterLogo,
+                      : Image.network(
+                          userProfile.photoProfile.toString(),
                           height: 50,
                           width: 50,
                         ),
@@ -261,8 +271,11 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                           .signOutAllUsers();
                       ref.invalidate(userProfileProvider);
                       ref.invalidate(featuresProvider);
-
+                      ref.invalidate(userDataProvider);
+                      ref.invalidate(sessionDataProvider);
+                      ref.invalidate(checkAuthStateProvider);
                       if (mounted) {
+                        ref.read(checkAuthStateProvider(context));
                         navigator.popUntil((route) => route.isFirst);
                         navigator.pushReplacement(PageTransition(
                             child: const OnBoardingScreen(),

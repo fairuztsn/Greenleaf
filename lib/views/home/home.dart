@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:greenleaf/controller/appfeatures_controller.dart';
 import 'package:greenleaf/provider/common/app_features.dart';
 import 'package:greenleaf/provider/common/user_profile.dart';
 import 'package:greenleaf/shared/base.dart';
@@ -25,8 +26,8 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final appFeatures = ref.watch(featuresProvider).value;
-    final userProfile = ref.watch(userProfileProvider).value;
+    final userProfile = ref.watch(userProfileProvider);
+    final appFeatures = ref.watch(featuresControllerProvider);
     return WillPopScope(
       onWillPop: () async {
         return await Alerts.showExitPopUp(context: context);
@@ -91,7 +92,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25.0),
                   child: Text(
-                    "Hai ${userProfile!.firstName.toString()}, mau ngapain hari ini?",
+                    "Hai ${userProfile.firstName.toString()}, mau ngapain hari ini?",
                     style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w800,
@@ -104,7 +105,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                   child: Wrap(
                     spacing: 50,
                     alignment: WrapAlignment.center,
-                    children: appFeatures!.map((e) {
+                    children: appFeatures.map((e) {
                       return Container(
                         width: MediaQuery.of(context).size.width * 0.3,
                         height: MediaQuery.of(context).size.height * 0.15,
@@ -114,7 +115,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                             border: Border.all(color: Colors.grey),
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(10)),
-                            boxShadow: [
+                            boxShadow: const [
                               BoxShadow(
                                 color: Colors.grey,
                                 offset: Offset(7, 5),
@@ -156,6 +157,17 @@ class _HomePageState extends ConsumerState<HomePage> {
                     }).toList(),
                   ),
                 ),
+                userProfile.role == 1
+                    ? const Padding(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        child: Card(
+                          child: ListTile(
+                            title: Text("Daftar Harga Barang Rongsok"),
+                          ),
+                        ),
+                      )
+                    : const SizedBox(),
               ],
             ),
           )),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/provider/common/check_auth_state.dart';
+import 'package:greenleaf/provider/common/session_user.dart';
 import 'package:greenleaf/shared/base.dart';
 
 class Splash extends ConsumerStatefulWidget {
@@ -15,6 +16,8 @@ class _SplashState extends ConsumerState<Splash> {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      ref.read(userDataProvider);
+      ref.read(sessionDataProvider);
       ref.read(checkAuthStateProvider(context));
     });
   }

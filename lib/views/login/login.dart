@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/controller/auth_controller.dart';
-import 'package:greenleaf/provider/common/user_profile.dart';
+import 'package:greenleaf/provider/common/session_user.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/shared/const.dart';
 import 'package:greenleaf/utils/snackbar.dart';
@@ -112,6 +112,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
           },
           lanjut: () async {
             final navigator = Navigator.of(context);
+            final roles = widget.rolename;
             if (formKey.currentState!.validate()) {
               showDialog(
                   context: context,
@@ -122,10 +123,19 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                         ),
                       ));
               try {
-                await ref
-                    .read(authControllerProvider.notifier)
-                    .emailPassUserSignIn(
-                        email: email.text, password: password.text);
+                roles == "GreenPeople"
+                    ? await ref
+                        .read(authControllerProvider.notifier)
+                        .emailPassUserSignIn(
+                            email: email.text, password: password.text)
+                    : roles == "GreenWorker"
+                        ? await ref
+                            .read(authControllerProvider.notifier)
+                            .emailPassWorkerSignIn(
+                                email: email.text, password: password.text)
+                        : Snackbars.showFailedSnackbar(context,
+                            title: "Terjadi Kesalahan",
+                            message: "Sepertinya Anda salah masuk gerbang!");
                 if (mounted) {
                   navigator.popUntil((route) => route.isFirst);
                   navigator.pushReplacement(PageTransition(
@@ -149,10 +159,10 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   navigator.pop();
                   Snackbars.showFailedSnackbar(context,
                       title: "Unknown Error occured", message: e.toString());
-                  print(e);
                 }
               } finally {
-                ref.read(userProfileProvider);
+                ref.read(userDataProvider);
+                ref.read(sessionDataProvider);
               }
             }
             setState(() {});
