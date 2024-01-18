@@ -4,7 +4,7 @@ Welcome to our Waste Management App! Our team (Team Apollo), the driving force b
 
 ## Key Features
 
-### 1. Inorganic Waste Management
+### 1. Inorganic Waste Solution
 
 #### Overview
 This feature caters to shopkeepers and households with small quantities of junk items. With a simple tap on your phone screen, you can easily locate the nearest collectors who are willing to buy your junk. This not only benefits shopkeepers and households but also creates opportunities for our partners, who act as middlemen between sellers and collectors.
@@ -19,7 +19,7 @@ This feature caters to shopkeepers and households with small quantities of junk 
 - Creates additional income opportunities for partners.
 - Strengthens the relationship between shopkeepers, households, and partners in the junk sales ecosystem.
 
-### 2. Organic Waste Management
+### 2. Organic Waste Solution
 
 #### Overview
 This feature addresses organic waste treatment by facilitating transactions between users and maggot sellers. Users can purchase maggots as a bioconversion method for processing organic waste independently.
