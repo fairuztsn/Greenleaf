@@ -1,6 +1,6 @@
 # Waste Management App
 
-Welcome to our Waste Management App! Our mission is to empower communities to actively participate in waste management and contribute to achieving Sustainable Development Goals (SDGs). By utilizing our app, you can play a crucial role in realizing Sustainable Cities and Communities, Climate Action, Responsible Consumption & Production, and Life On Land. Additionally, we aim to support economic growth through Decent Work & Economic Growth and Partnership For Goals by creating job opportunities for millions of people.
+Welcome to our Waste Management App! Our team (Team Apollo), the driving force behind our innovative approach to waste management. Our mission is to empower communities to actively participate in waste management and contribute to achieving Sustainable Development Goals (SDGs). By utilizing our app, you can play a crucial role in realizing Sustainable Cities and Communities, Climate Action, Responsible Consumption & Production, and Life On Land. Additionally, we aim to support economic growth through Decent Work & Economic Growth and Partnership For Goals by creating job opportunities for millions of people.
 
 ## Key Features
 
