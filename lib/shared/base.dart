@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:greenleaf/res/assets.dart';
-import 'package:greenleaf/shared/const.dart';
+import 'package:greenleaf/config/app_colors.dart';
 
 class BaseApp {
   static Widget standardBackground({
@@ -45,7 +45,7 @@ class BaseApp {
             "GreenLeaf",
             style: TextStyle(
                 fontSize: 10,
-                color: Constants.colorGreenLeaf,
+                color: AppColors.colorGreenLeaf,
                 fontWeight: FontWeight.w800),
             textAlign: TextAlign.center,
           ),
@@ -79,7 +79,7 @@ class BaseApp {
                 ElevatedButton(
                   onPressed: login,
                   style: ElevatedButton.styleFrom(
-                      backgroundColor: Constants.colorGreenLeaf,
+                      backgroundColor: AppColors.colorGreenLeaf,
                       shape: const RoundedRectangleBorder(
                           side: BorderSide(color: Colors.white),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
@@ -114,7 +114,7 @@ class BaseApp {
                       backgroundColor: Colors.white,
                       shape: const RoundedRectangleBorder(
                           side: BorderSide(
-                              color: Constants.colorGreenLeaf, width: 2),
+                              color: AppColors.colorGreenLeaf, width: 2),
                           borderRadius: BorderRadius.all(Radius.circular(20))),
                       fixedSize: Size.fromWidth(
                           MediaQuery.of(context).size.width * 0.8)),
@@ -123,7 +123,7 @@ class BaseApp {
                     style: TextStyle(
                         fontSize: 20,
                         fontWeight: FontWeight.w800,
-                        color: Constants.colorGreenLeaf,
+                        color: AppColors.colorGreenLeaf,
                         letterSpacing: -1),
                   ),
                 ),
@@ -148,7 +148,7 @@ class BaseApp {
                           child: const Text(
                             "kebijakan privasi",
                             style: TextStyle(
-                                color: Constants.colorGreenLeaf,
+                                color: AppColors.colorGreenLeaf,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300,
                                 letterSpacing: -1),
@@ -166,7 +166,7 @@ class BaseApp {
                           child: const Text(
                             "aturan layanan",
                             style: TextStyle(
-                                color: Constants.colorGreenLeaf,
+                                color: AppColors.colorGreenLeaf,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w300,
                                 letterSpacing: -1),
@@ -241,7 +241,7 @@ class BaseApp {
             child: Text(
               linkable,
               style: const TextStyle(
-                  color: Constants.colorGreenLeaf,
+                  color: AppColors.colorGreenLeaf,
                   fontSize: 10,
                   fontWeight: FontWeight.w300,
                   letterSpacing: -1),
@@ -252,7 +252,7 @@ class BaseApp {
         child: ElevatedButton(
           onPressed: lanjut,
           style: ElevatedButton.styleFrom(
-              backgroundColor: Constants.colorGreenLeaf,
+              backgroundColor: AppColors.colorGreenLeaf,
               shape: const RoundedRectangleBorder(
                   side: BorderSide(color: Colors.white),
                   borderRadius: BorderRadius.all(Radius.circular(20)))),

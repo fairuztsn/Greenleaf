@@ -11,5 +11,6 @@ final class Env {
   @EnviedField(varName: 'SUPABASE_PUBLIC_KEY')
   static const String supabasePublicKey = _Env.supabasePublicKey;
   @EnviedField(varName: 'SUPABASE_STORAGE_RETRY_ATTEMPTS')
-  static const int supabaseStorageRetryAttempts = _Env.supabaseStorageRetryAttempts;
+  static const int supabaseStorageRetryAttempts =
+      _Env.supabaseStorageRetryAttempts;
 }
