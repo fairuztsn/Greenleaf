@@ -1,3 +1,4 @@
+import 'package:greenleaf/core/core.dart';
 import 'package:greenleaf/features/auth/auth_provider.dart';
 import 'package:greenleaf/features/auth/domain/entities/user_entity.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
@@ -11,7 +12,9 @@ part 'auth_controller.g.dart';
 class AuthController extends _$AuthController {
   @override
   FutureOr<UserEntity?> build() async {
+    print('power');
     final repository = ref.watch(authRepositoryProvider);
+    print('pwoer');
     final res = await repository.restoreSession();
     final userEntity = res.fold((l) => null, (r) => r);
     _updateAuthState(userEntity);
@@ -53,6 +56,25 @@ class AuthController extends _$AuthController {
     final userEntity = res.fold((l) => null, (r) => r);
     _updateAuthState(userEntity);
     state = AsyncData(userEntity);
+  }
+
+  ///
+  FutureVoid signInWithEmailPassword({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      print('what happen2');
+      final res = await ref
+          .read(authRepositoryProvider)
+          .signInWithEmailPass(email: email, password: password);
+      res.fold(
+        (l) => null,
+        (r) => state = AsyncData(UserEntity.fromJson(r.user!.toJson())),
+      );
+    } catch (e) {
+      return;
+    }
   }
 
   /// Signs out user

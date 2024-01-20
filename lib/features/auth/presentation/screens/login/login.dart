@@ -1,10 +1,8 @@
-// ignore_for_file: public_member_api_docs, inference_failure_on_function_invocation, inference_failure_on_instance_creation
-
-import 'dart:async';
-
+// ignore_for_file: public_member_api_docs, inference_failure_on_function_invocation, inference_failure_on_instance_creation, unawaited_futures
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/config/app_colors.dart';
+import 'package:greenleaf/features/auth/application/auth_controller.dart';
 import 'package:greenleaf/features/auth/application/sign_in_with_email_password_controller.dart';
 import 'package:greenleaf/features/auth/presentation/screens/login/help/help.dart';
 import 'package:greenleaf/features/common/presentation/screens/navbar/navbar.dart';
@@ -125,15 +123,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         lanjut: () async {
           final navigator = Navigator.of(context);
           if (formKey.currentState!.validate()) {
-            unawaited(showDialog(
-              context: context,
-              barrierDismissible: false,
-              builder: (context) => const Center(
-                child: CircularProgressIndicator.adaptive(
-                  backgroundColor: AppColors.colorGreenLeaf,
-                ),
-              ),
-            ));
+            // showDialog(
+            //   context: context,
+            //   barrierDismissible: false,
+            //   builder: (context) => const Center(
+            //     child: CircularProgressIndicator.adaptive(
+            //       backgroundColor: AppColors.colorGreenLeaf,
+            //     ),
+            //   ),
+            // );
             try {
               await ref
                   .read(signInWithEmailPasswordControllerProvider.notifier)
@@ -141,44 +139,25 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     email: email.text,
                     password: password.text,
                   );
-              if (mounted) {
-                navigator.popUntil((route) => route.isFirst);
-                await navigator.pushReplacement(
-                  PageTransition(
-                    child: const Navbar(),
-                    type: PageTransitionType.fade,
-                  ),
-                );
-              }
-            } on AuthException catch (e) {
-              if (mounted && e.message.contains('Invalid')) {
-                navigator.pop();
-                Snackbars.showFailedSnackbar(
-                  context,
-                  title: 'Login Failed',
-                  message: 'Email atau Password Salah!',
-                );
-              }
-            } on PostgrestException catch (e) {
-              if (mounted && e.message.contains('rows')) {
-                navigator.pop();
-                Snackbars.showFailedSnackbar(
-                  context,
-                  title: 'Error occured',
-                  message: 'Data tidak ditemukan',
-                );
-              }
+              // if (!mounted) {
+              //   Future.delayed(const Duration(seconds: 1), () {
+              //     navigator.pushReplacement(
+              //       PageTransition(
+              //         child: const Navbar(),
+              //         type: PageTransitionType.fade,
+              //       ),
+              //     );
+              //   });
+              // }
             } catch (e, stcktrc) {
-              if (mounted) {
-                navigator.pop();
-                Snackbars.showFailedSnackbar(
-                  context,
-                  title: 'Unknown Error occured',
-                  message: stcktrc.toString(),
-                );
-                print(e);
-                print(stcktrc);
-              }
+              navigator.pop();
+              // Snackbars.showFailedSnackbar(
+              //   context,
+              //   title: 'Unknown Error occured',
+              //   message: stcktrc.toString(),
+              // );
+              print(e);
+              print(stcktrc);
             }
           }
           setState(() {});
@@ -189,3 +168,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
     );
   }
 }
+
+// on AuthException catch (e) {
+//               if (mounted && e.message.contains('Invalid')) {
+//                 navigator.pop();
+//                 Snackbars.showFailedSnackbar(
+//                   context,
+//                   title: 'Login Failed',
+//                   message: 'Email atau Password Salah!',
+//                 );
+//               }
+//             } on PostgrestException catch (e) {
+//               if (mounted && e.message.contains('rows')) {
+//                 navigator.pop();
+//                 Snackbars.showFailedSnackbar(
+//                   context,
+//                   title: 'Error occured',
+//                   message: 'Data tidak ditemukan',
+//                 );
+//               }
+//             } 

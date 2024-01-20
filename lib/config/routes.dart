@@ -33,12 +33,7 @@ import 'package:greenleaf/features/common/presentation/utils/extensions/ui_exten
 ///
 ///
 ///
-
-final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
 final router = GoRouter(
-  navigatorKey: navigatorKey,
-  routerNeglect: true,
   routes: [
     // GoRoute(
     //   path: '/',
