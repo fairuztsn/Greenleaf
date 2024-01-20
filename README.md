@@ -54,17 +54,21 @@ Note: All monetary values are in Indonesian Rupiah (IDR). 💰🇮🇩
 ## How To Run
 
 > 1. Clone The Project
->    `https://github.com/fairuztsn/greenleaf.git`
+
+`https://github.com/fairuztsn/greenleaf.git`
 
 > 2. Run Flutter Pub Get
->    `flutter pub get`
+
+`flutter pub get`
 
 > 3. Run Build Runner
->    `dart run build_runner build`
+
+`dart run build_runner build`
 
 > 4. Initiate Your Emulator
 
 > 5. Run The Project
->    `flutter run`
+
+`flutter run`
 
 ## License
