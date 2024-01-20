@@ -11,19 +11,20 @@ part 'providers.g.dart';
 @riverpod
 
 ///Providers for Fetching Local Data Source
-FutureOr<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) {
-  return SharedPreferences.getInstance();
+FutureOr<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) async {
+  return await SharedPreferences.getInstance();
 }
 
 @riverpod
 
 ///Provider for Initializing our Backend: Supabase
 FutureOr<Supabase> supabase(SupabaseRef ref) async {
-  return Supabase.initialize(
+  return await Supabase.initialize(
     url: Env.supabaseUrl,
     anonKey: Env.supabasePublicKey,
     storageOptions: const StorageClientOptions(
-        retryAttempts: Env.supabaseStorageRetryAttempts),
+      retryAttempts: Env.supabaseStorageRetryAttempts,
+    ),
     realtimeClientOptions:
         const RealtimeClientOptions(logLevel: RealtimeLogLevel.info),
     debug: kDebugMode,
@@ -34,6 +35,7 @@ FutureOr<Supabase> supabase(SupabaseRef ref) async {
 
 ///Providing SupabaseClient for Our Child Controller
 SupabaseClient supabaseClient(SupabaseClientRef ref) {
+  print('test');
   return ref.watch(supabaseProvider).valueOrNull!.client;
 }
 

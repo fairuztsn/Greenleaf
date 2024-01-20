@@ -10,7 +10,8 @@ part 'sign_in_with_email_password_controller.g.dart';
 class SignInWithEmailPasswordController
     extends _$SignInWithEmailPasswordController {
   @override
-  FutureOr<bool> build() {
+  FutureOr<bool> build() async {
+    print('hes here for me');
     return false;
   }
 
@@ -18,15 +19,14 @@ class SignInWithEmailPasswordController
     required String email,
     required String password,
   }) async {
-    final res = await ref
-        .read(authRepositoryProvider)
-        .signInWithEmailPass(email, password);
-    res.fold((l) {
-      state = AsyncError(l.toString(), StackTrace.current);
-    }, (r) {
-      if (r.session != null && r.user != null) {
-        state = const AsyncData(true);
-      }
-    });
+    try {
+      print('what happen');
+      await ref
+          .read(authRepositoryProvider)
+          .signInWithEmailPass(email: email, password: password);
+      state = const AsyncData(true);
+    } catch (e) {
+      state = AsyncError(e.toString(), StackTrace.current);
+    }
   }
 }

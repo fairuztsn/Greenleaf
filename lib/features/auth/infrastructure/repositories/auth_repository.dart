@@ -25,6 +25,7 @@ class AuthRepository implements AuthRepositoryInterface {
   /// Exposes Supabase auth client to allow Auth Controller to subscribe to auth changes
   final supabase.GoTrueClient authClient;
 
+  ///
   final supabase.SupabaseClient postgrestClient;
 
   /// Current authorized User
@@ -41,6 +42,7 @@ class AuthRepository implements AuthRepositoryInterface {
   ) {
     authClient.onAuthStateChange.listen((data) {
       switch (data.event) {
+        case supabase.AuthChangeEvent.initialSession:
         case supabase.AuthChangeEvent.signedIn:
         case supabase.AuthChangeEvent.userUpdated:
         case supabase.AuthChangeEvent.mfaChallengeVerified:
@@ -55,7 +57,6 @@ class AuthRepository implements AuthRepositoryInterface {
         case supabase.AuthChangeEvent.passwordRecovery:
         case supabase.AuthChangeEvent.tokenRefreshed:
           break;
-        case supabase.AuthChangeEvent.initialSession:
       }
     });
   }
@@ -122,33 +123,38 @@ class AuthRepository implements AuthRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, supabase.AuthResponse>> signInWithEmailPass(
-    String email,
-    String password,
-  ) async {
-    final res =
-        await authClient.signInWithPassword(email: email, password: password);
-    if (res.session == null || res.user == null) {
+  Future<Either<Failure, supabase.AuthResponse>> signInWithEmailPass({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      print('im here');
+      final res =
+          await authClient.signInWithPassword(email: email, password: password);
+      if (res.session == null || res.user == null) {
+        return left(const Failure.badRequest());
+      }
+      final ipAddr = await InternetAddress.lookup(
+        hostname.toString(),
+        type: InternetAddressType.IPv4,
+      );
+
+      final checkTry = <String, dynamic>{
+        'user_id': res.user?.id,
+        'last_logged_in': DateTime.now().toIso8601String(),
+        'host_name': hostname.toString(),
+        'ip': ipAddr.first.address,
+      };
+
+      await postgrestClient.from('ad_login_history').insert(checkTry);
+      return right(res);
+    } catch (e) {
       return left(const Failure.badRequest());
     }
-    final ipAddr = await InternetAddress.lookup(
-      hostname.toString(),
-      type: InternetAddressType.IPv4,
-    );
-
-    final checkTry = <String, dynamic>{
-      'user_id': res.user!.id,
-      'last_logged_in': DateTime.now().toIso8601String(),
-      'host_name': hostname.toString(),
-      'ip': ipAddr.first.address,
-    };
-
-    await postgrestClient.from('ad_login_history').insert(checkTry);
-    return right(res);
   }
 
   @override
-  Future<Either<Failure, supabase.AuthResponse>> signUpWithEmailPass(
+  Future<Either<Failure, bool>> signUpWithEmailPass(
     String email,
     String password,
     String phone,
@@ -156,46 +162,50 @@ class AuthRepository implements AuthRepositoryInterface {
     String lastName,
     int role,
   ) async {
-    final res = await authClient.signUp(
-      email: email,
-      phone: phone,
-      password: password,
-    );
-    if (res.session == null || res.user == null) {
+    try {
+      final res = await authClient.signUp(
+        email: email,
+        phone: phone,
+        password: password,
+      );
+      if (res.session == null || res.user == null) {
+        return left(const Failure.badRequest());
+      }
+      final credUser = res.user?.id;
+      final user = <String, dynamic>{
+        'user_id': credUser,
+        'first_name': firstName,
+        'last_name': lastName,
+        'email': email,
+        'phone_number': phone,
+        'role_id': role,
+        'privilege_id': 'Peasant',
+      };
+
+      final temp =
+          await postgrestClient.from('ad_profile_data').insert(user).select();
+      if (temp.isEmpty) {
+        return left(const Failure.empty());
+      }
+
+      final ipAddr = await InternetAddress.lookup(
+        hostname.toString(),
+        type: InternetAddressType.IPv4,
+      );
+
+      final checkTry = <String, dynamic>{
+        'user_id': res.user?.id,
+        'last_logged_in': DateTime.now().toIso8601String(),
+        'host_name': hostname.toString(),
+        'ip': ipAddr.first.address,
+      };
+
+      await postgrestClient.from('ad_login_history').insert(checkTry);
+
+      return right(true);
+    } catch (e) {
       return left(const Failure.badRequest());
     }
-    final credUser = res.user?.id;
-    final user = <String, dynamic>{
-      'user_id': credUser,
-      'first_name': firstName,
-      'last_name': lastName,
-      'email': email,
-      'phone_number': phone,
-      'role_id': role,
-      'privilege_id': 'Peasant',
-    };
-
-    final temp =
-        await postgrestClient.from('ad_profile_data').insert(user).select();
-    if (temp.isEmpty) {
-      return left(const Failure.empty());
-    }
-
-    final ipAddr = await InternetAddress.lookup(
-      hostname.toString(),
-      type: InternetAddressType.IPv4,
-    );
-
-    final checkTry = <String, dynamic>{
-      'user_id': res.user!.id,
-      'last_logged_in': DateTime.now().toIso8601String(),
-      'host_name': hostname.toString(),
-      'ip': ipAddr.first.address,
-    };
-
-    await postgrestClient.from('ad_login_history').insert(checkTry);
-
-    return right(res);
   }
 
   /// Signs out user from the application

@@ -11,7 +11,9 @@ part 'auth_provider.g.dart';
 ///
 @riverpod
 AuthRepository authRepository(AuthRepositoryRef ref) {
+  print('helpyy');
   final supabaseClient = ref.watch(supabaseClientProvider);
+  print('helpyyyy');
   final authClient = supabaseClient.auth;
   final prefs = ref.read(sharedPreferencesProvider).asData!.value;
   return AuthRepository(
