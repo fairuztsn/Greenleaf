@@ -49,7 +49,7 @@ We believe our app will contribute significantly to waste reduction, targeting 3
 
 Join us in breaking the cycle of waste and fostering a sustainable and economically thriving community! 🌍💪
 
-Note: All monetary values are in Indonesian Rupiah (IDR). 💰🇮🇩
+> - - Note: All monetary values are in Indonesian Rupiah (IDR). 💰🇮🇩
 
 ## How To Run
 
