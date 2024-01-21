@@ -2,14 +2,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:greenleaf/config/app_colors.dart';
-import 'package:greenleaf/features/auth/application/auth_controller.dart';
 import 'package:greenleaf/features/auth/application/sign_in_with_email_password_controller.dart';
 import 'package:greenleaf/features/auth/presentation/screens/login/help/help.dart';
 import 'package:greenleaf/features/common/presentation/screens/navbar/navbar.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/utils/snackbar.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({
@@ -123,15 +121,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
         lanjut: () async {
           final navigator = Navigator.of(context);
           if (formKey.currentState!.validate()) {
-            // showDialog(
-            //   context: context,
-            //   barrierDismissible: false,
-            //   builder: (context) => const Center(
-            //     child: CircularProgressIndicator.adaptive(
-            //       backgroundColor: AppColors.colorGreenLeaf,
-            //     ),
-            //   ),
-            // );
+            showDialog(
+              context: context,
+              barrierDismissible: false,
+              builder: (context) => const Center(
+                child: CircularProgressIndicator.adaptive(
+                  backgroundColor: AppColors.colorGreenLeaf,
+                ),
+              ),
+            );
             try {
               await ref
                   .read(signInWithEmailPasswordControllerProvider.notifier)
@@ -150,12 +148,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               //   });
               // }
             } catch (e, stcktrc) {
-              navigator.pop();
-              // Snackbars.showFailedSnackbar(
-              //   context,
-              //   title: 'Unknown Error occured',
-              //   message: stcktrc.toString(),
-              // );
+              if (mounted) {
+                navigator.pop();
+                Snackbars.showFailedSnackbar(
+                  context,
+                  title: 'Unknown Error occured',
+                  message: stcktrc.toString(),
+                );
+              }
               print(e);
               print(stcktrc);
             }

@@ -9,7 +9,7 @@ abstract class AuthRepositoryInterface {
   /// Sign in with Google
   FutureEither<bool> signInWithGoogle();
 
-  FutureEither<AuthResponse> signInWithEmailPass({
+  FutureEither<bool> signInWithEmailPass({
     required String email,
     required String password,
   });
