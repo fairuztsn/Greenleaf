@@ -3,6 +3,7 @@ import 'package:greenleaf/config/providers.dart';
 import 'package:greenleaf/features/auth/infrastructure/datasources/local/auth_token_local_data_source.dart';
 import 'package:greenleaf/features/auth/infrastructure/repositories/auth_repository.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 part 'auth_provider.g.dart';
 
@@ -10,16 +11,16 @@ part 'auth_provider.g.dart';
 /// Infrastructure dependencies
 ///
 @riverpod
-AuthRepository authRepository(AuthRepositoryRef ref) {
-  print('helpyy');
+Future<AuthRepository> authRepository(AuthRepositoryRef ref) async {
   final supabaseClient = ref.watch(supabaseClientProvider);
-  print('helpyyyy');
+  print(supabaseClient);
   final authClient = supabaseClient.auth;
-  final prefs = ref.read(sharedPreferencesProvider).asData!.value;
+  print(authClient);
+  final pref = ref.read(sharedPreferencesProvider).value;
+  print(pref);
+
   return AuthRepository(
-    AuthTokenLocalDataSource(
-      prefs,
-    ),
+    AuthTokenLocalDataSource(pref!),
     authClient,
     supabaseClient,
   );

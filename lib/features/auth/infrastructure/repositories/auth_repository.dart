@@ -33,7 +33,7 @@ class AuthRepository implements AuthRepositoryInterface {
       ? null
       : UserEntity.fromJson(authClient.currentUser!.toJson());
 
-  String? get hostname => Platform.localHostname;
+  String get hostname => Platform.localHostname;
 
   /// Returns Stream with auth user changes
   @override
@@ -123,7 +123,7 @@ class AuthRepository implements AuthRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, supabase.AuthResponse>> signInWithEmailPass({
+  Future<Either<Failure, bool>> signInWithEmailPass({
     required String email,
     required String password,
   }) async {
@@ -131,23 +131,23 @@ class AuthRepository implements AuthRepositoryInterface {
       print('im here');
       final res =
           await authClient.signInWithPassword(email: email, password: password);
-      if (res.session == null || res.user == null) {
-        return left(const Failure.badRequest());
-      }
-      final ipAddr = await InternetAddress.lookup(
-        hostname.toString(),
-        type: InternetAddressType.IPv4,
-      );
+      // if (res.session == null || res.user == null) {
+      //   return left(const Failure.badRequest());
+      // }
+      // final ipAddr = await InternetAddress.lookup(
+      //   hostname,
+      //   type: InternetAddressType.IPv4,
+      // );
 
-      final checkTry = <String, dynamic>{
-        'user_id': res.user?.id,
-        'last_logged_in': DateTime.now().toIso8601String(),
-        'host_name': hostname.toString(),
-        'ip': ipAddr.first.address,
-      };
+      // final checkTry = <String, dynamic>{
+      //   'user_id': res.user?.id,
+      //   'last_logged_in': DateTime.now().toIso8601String(),
+      //   'host_name': hostname,
+      //   'ip': ipAddr.first.address,
+      // };
 
-      await postgrestClient.from('ad_login_history').insert(checkTry);
-      return right(res);
+      // await postgrestClient.from('ad_login_history').insert(checkTry);
+      return right(true);
     } catch (e) {
       return left(const Failure.badRequest());
     }
@@ -189,14 +189,14 @@ class AuthRepository implements AuthRepositoryInterface {
       }
 
       final ipAddr = await InternetAddress.lookup(
-        hostname.toString(),
+        hostname,
         type: InternetAddressType.IPv4,
       );
 
       final checkTry = <String, dynamic>{
         'user_id': res.user?.id,
         'last_logged_in': DateTime.now().toIso8601String(),
-        'host_name': hostname.toString(),
+        'host_name': hostname,
         'ip': ipAddr.first.address,
       };
 

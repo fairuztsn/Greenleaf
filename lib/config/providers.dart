@@ -12,7 +12,8 @@ part 'providers.g.dart';
 
 ///Providers for Fetching Local Data Source
 FutureOr<SharedPreferences> sharedPreferences(SharedPreferencesRef ref) async {
-  return await SharedPreferences.getInstance();
+  final prefs = await SharedPreferences.getInstance();
+  return prefs;
 }
 
 @riverpod
@@ -35,8 +36,8 @@ FutureOr<Supabase> supabase(SupabaseRef ref) async {
 
 ///Providing SupabaseClient for Our Child Controller
 SupabaseClient supabaseClient(SupabaseClientRef ref) {
-  print('test');
-  return ref.watch(supabaseProvider).valueOrNull!.client;
+  final sup = Supabase.instance.client;
+  return sup;
 }
 
 ///Initializer for bootstrap.dart
@@ -44,7 +45,9 @@ Future<void> initializeProviders(ProviderContainer container) async {
   /// Core
   await container.read(sharedPreferencesProvider.future);
   await container.read(supabaseProvider.future);
+  container
+    ..read(supabaseClientProvider)
 
-  /// Auth
-  container.read(authControllerProvider);
+    /// Auth
+    ..read(authControllerProvider);
 }

@@ -2,7 +2,9 @@
 
 import 'package:greenleaf/core/core.dart';
 import 'package:greenleaf/features/auth/auth_provider.dart';
+import 'package:greenleaf/features/common/domain/failures/failure.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 part 'sign_in_with_email_password_controller.g.dart';
 
@@ -11,7 +13,6 @@ class SignInWithEmailPasswordController
     extends _$SignInWithEmailPasswordController {
   @override
   FutureOr<bool> build() async {
-    print('hes here for me');
     return false;
   }
 
@@ -19,14 +20,18 @@ class SignInWithEmailPasswordController
     required String email,
     required String password,
   }) async {
-    try {
-      print('what happen');
-      await ref
-          .read(authRepositoryProvider)
-          .signInWithEmailPass(email: email, password: password);
-      state = const AsyncData(true);
-    } catch (e) {
-      state = AsyncError(e.toString(), StackTrace.current);
-    }
+    // try {
+    final res = await ref
+        .read(authRepositoryProvider)
+        .signInWithEmailPass(email: email, password: password);
+    print('power');
+    res.fold((l) => state = AsyncError(l, StackTrace.current), (r) {
+      if (r) {
+        state = AsyncData(r);
+      }
+    });
+    // } catch (e) {
+    //   state = AsyncError(e.toString(), StackTrace.current);
+    // }
   }
 }
