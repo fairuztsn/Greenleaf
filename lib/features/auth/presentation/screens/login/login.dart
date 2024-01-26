@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, inference_failure_on_function_invocation, inference_failure_on_instance_creation, unawaited_futures
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:greenleaf/config/app_colors.dart';
 import 'package:greenleaf/features/auth/application/sign_in_with_email_password_controller.dart';
 import 'package:greenleaf/features/auth/presentation/screens/login/help/help.dart';
@@ -8,6 +9,7 @@ import 'package:greenleaf/features/common/presentation/screens/navbar/navbar.dar
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/utils/snackbar.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({
@@ -136,6 +138,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   .signInWithEmailPassword(
                     email: email.text,
                     password: password.text,
+                  )
+                  .whenComplete(
+                    () => context.goNamed(Navbar.route),
                   );
               // if (!mounted) {
               //   Future.delayed(const Duration(seconds: 1), () {
@@ -147,6 +152,15 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               //     );
               //   });
               // }
+            } on AuthException catch (e) {
+              if (mounted && e.message.contains('invalid')) {
+                navigator.pop();
+                Snackbars.showFailedSnackbar(
+                  context,
+                  title: 'Invalid Credentials',
+                  message: 'Wrong Email or Password',
+                );
+              }
             } catch (e, stcktrc) {
               if (mounted) {
                 navigator.pop();
@@ -156,8 +170,6 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   message: stcktrc.toString(),
                 );
               }
-              print(e);
-              print(stcktrc);
             }
           }
           setState(() {});
