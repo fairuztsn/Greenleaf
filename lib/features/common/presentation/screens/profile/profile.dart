@@ -1,7 +1,8 @@
-// ignore_for_file: inference_failure_on_instance_creation, inference_failure_on_function_invocation, public_member_api_docs
+// ignore_for_file: inference_failure_on_instance_creation, inference_failure_on_function_invocation, public_member_api_docs, unawaited_futures
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 import 'package:greenleaf/config/app_colors.dart';
 import 'package:greenleaf/features/auth/application/auth_controller.dart';
 import 'package:greenleaf/features/auth/presentation/screens/onboarding/onboarding.dart';
@@ -11,7 +12,6 @@ import 'package:greenleaf/features/common/presentation/widgets/app_error.dart';
 import 'package:greenleaf/res/assets.dart';
 import 'package:greenleaf/shared/base.dart';
 import 'package:greenleaf/utils/snackbar.dart';
-import 'package:page_transition/page_transition.dart';
 
 class ProfileScreen extends ConsumerStatefulWidget {
   const ProfileScreen({super.key});
@@ -269,7 +269,7 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                     ),
                     onPressed: () async {
                       final navigator = Navigator.of(context);
-                      await showDialog(
+                      showDialog(
                         context: context,
                         barrierDismissible: false,
                         builder: (context) => const Center(
@@ -281,16 +281,10 @@ class _ProfileScreenState extends ConsumerState<ProfileScreen> {
                       try {
                         await ref
                             .read(authControllerProvider.notifier)
-                            .signOut();
-                        if (mounted) {
-                          navigator.popUntil((route) => route.isFirst);
-                          await navigator.pushReplacement(
-                            PageTransition(
-                              child: const OnBoardingScreen(),
-                              type: PageTransitionType.fade,
-                            ),
-                          );
-                        }
+                            .signOut()
+                            .whenComplete(
+                              () => context.goNamed(OnBoardingScreen.route),
+                            );
                       } catch (e) {
                         if (mounted) {
                           navigator.pop();

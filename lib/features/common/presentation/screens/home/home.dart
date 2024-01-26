@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:greenleaf/config/app_colors.dart';
+import 'package:greenleaf/features/common/application/user_faq_controller.dart';
 import 'package:greenleaf/features/common/application/user_feature_controller.dart';
 import 'package:greenleaf/features/common/application/user_profile_controller.dart';
 import 'package:greenleaf/features/common/domain/entities/user_feature_entity.dart';
@@ -36,6 +37,10 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void init() {
+    ref
+      ..read(userProfileControllerProvider.notifier).build()
+      ..read(userFeatureControllerProvider.notifier).build()
+      ..read(userFAQControllerProvider.notifier).build();
     setState(() {
       isLoading = false;
     });
