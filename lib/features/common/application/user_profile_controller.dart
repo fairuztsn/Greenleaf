@@ -13,7 +13,7 @@ part 'user_profile_controller.g.dart';
 class UserProfileController extends _$UserProfileController {
   @override
   FutureOr<UserProfileEntity> build() async {
-    final res = await ref.watch(commonRepositoryProvider).getProfile();
+    final res = await ref.read(commonRepositoryProvider).getProfile();
     return res.fold(
       (l) => throw Failure.unprocessableEntity(message: l.toString()),
       (r) => r,

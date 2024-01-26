@@ -9,7 +9,7 @@ part 'user_faq_entity.g.dart';
 class UserFAQEntity with _$UserFAQEntity {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory UserFAQEntity({
-    required String id,
+    required int id,
     required String question,
     required String subquestion,
     required String answer,

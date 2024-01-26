@@ -13,7 +13,7 @@ part 'user_faq_controller.g.dart';
 class UserFAQController extends _$UserFAQController {
   @override
   FutureOr<List<UserFAQEntity>> build() async {
-    final res = await ref.watch(commonRepositoryProvider).getFAQs();
+    final res = await ref.read(commonRepositoryProvider).getFAQs();
     return res.fold(
       (l) => throw Failure.unprocessableEntity(message: l.toString()),
       (r) => r,
