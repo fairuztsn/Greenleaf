@@ -14,6 +14,7 @@ import 'package:greenleaf/features/common/presentation/screens/profile/profile.d
 import 'package:greenleaf/features/common/presentation/screens/tanya/tanya.dart';
 import 'package:greenleaf/features/common/presentation/screens/tanya/tanya_search.dart';
 import 'package:greenleaf/features/common/presentation/utils/extensions/ui_extension.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 /// Main router for the greenleaf app
 ///
@@ -157,16 +158,12 @@ final router = GoRouter(
     routeObserver,
   ],
   redirect: (context, state) {
-    final loggedIn = authStateListenable.value;
-    final goingToLogin =
-        state.matchedLocation.contains('/${OnBoardingScreen.route}');
+    final loggedIn = Supabase.instance.client.auth.currentUser;
 
-    if (!loggedIn && !goingToLogin) {
-      return '/${OnBoardingScreen.route}';
+    if (loggedIn != null) {
+      return '/${Navbar.route}';
     }
-    if (loggedIn && goingToLogin) return '/${Navbar.route}';
-
-    return null;
+    return '/${OnBoardingScreen.route}';
   },
   refreshListenable: authStateListenable,
   debugLogDiagnostics: true,
