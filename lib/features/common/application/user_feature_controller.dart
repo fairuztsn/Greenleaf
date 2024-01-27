@@ -13,7 +13,7 @@ part 'user_feature_controller.g.dart';
 class UserFeatureController extends _$UserFeatureController {
   @override
   FutureOr<List<UserFeaturesEntity>> build() async {
-    final res = await ref.watch(commonRepositoryProvider).getFeatures();
+    final res = await ref.read(commonRepositoryProvider).getFeatures();
     return res.fold(
       (l) => throw Failure.unprocessableEntity(message: l.toString()),
       (r) => r,

@@ -9,7 +9,7 @@ part 'user_feature_entity.g.dart';
 class UserFeaturesEntity with _$UserFeaturesEntity {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory UserFeaturesEntity({
-    required String id,
+    required int id,
     required String name,
     required String groupFeature,
     required String mobilePath,

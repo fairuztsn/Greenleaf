@@ -43,7 +43,15 @@ class AuthRepository implements AuthRepositoryInterface {
     authClient.onAuthStateChange.listen((data) {
       switch (data.event) {
         case supabase.AuthChangeEvent.initialSession:
+          if (currentUser != null) {
+            callback(UserEntity.fromJson(currentUser!.toJson()));
+          }
+          break;
         case supabase.AuthChangeEvent.signedIn:
+          callback(
+            UserEntity.fromJson(data.session!.user.toJson()),
+          );
+          break;
         case supabase.AuthChangeEvent.userUpdated:
         case supabase.AuthChangeEvent.mfaChallengeVerified:
           callback(
@@ -123,7 +131,7 @@ class AuthRepository implements AuthRepositoryInterface {
   }
 
   @override
-  Future<Either<Failure, bool>> signInWithEmailPass({
+  Future<Either<Failure, supabase.AuthResponse>> signInWithEmailPass({
     required String email,
     required String password,
   }) async {
@@ -131,30 +139,30 @@ class AuthRepository implements AuthRepositoryInterface {
       print('im here');
       final res =
           await authClient.signInWithPassword(email: email, password: password);
-      // if (res.session == null || res.user == null) {
-      //   return left(const Failure.badRequest());
-      // }
-      // final ipAddr = await InternetAddress.lookup(
-      //   hostname,
-      //   type: InternetAddressType.IPv4,
-      // );
+      if (res.session == null || res.user == null) {
+        return left(const Failure.badRequest());
+      }
+      final ipAddr = await InternetAddress.lookup(
+        hostname,
+        type: InternetAddressType.IPv4,
+      );
 
-      // final checkTry = <String, dynamic>{
-      //   'user_id': res.user?.id,
-      //   'last_logged_in': DateTime.now().toIso8601String(),
-      //   'host_name': hostname,
-      //   'ip': ipAddr.first.address,
-      // };
+      final checkTry = <String, dynamic>{
+        'user_id': res.user?.id,
+        'last_logged_in': DateTime.now().toIso8601String(),
+        'host_name': hostname,
+        'ip': ipAddr.first.address,
+      };
 
-      // await postgrestClient.from('ad_login_history').insert(checkTry);
-      return right(true);
+      await postgrestClient.from('ad_login_history').insert(checkTry);
+      return right(res);
     } catch (e) {
       return left(const Failure.badRequest());
     }
   }
 
   @override
-  Future<Either<Failure, bool>> signUpWithEmailPass(
+  Future<Either<Failure, supabase.AuthResponse>> signUpWithEmailPass(
     String email,
     String password,
     String phone,
@@ -202,7 +210,7 @@ class AuthRepository implements AuthRepositoryInterface {
 
       await postgrestClient.from('ad_login_history').insert(checkTry);
 
-      return right(true);
+      return right(res);
     } catch (e) {
       return left(const Failure.badRequest());
     }

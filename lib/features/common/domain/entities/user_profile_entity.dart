@@ -9,7 +9,7 @@ part 'user_profile_entity.g.dart';
 class UserProfileEntity with _$UserProfileEntity {
   @JsonSerializable(fieldRename: FieldRename.snake)
   const factory UserProfileEntity({
-    required String id,
+    required int id,
     required String userId,
     required String firstName,
     required String lastName,

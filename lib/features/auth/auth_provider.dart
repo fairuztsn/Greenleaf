@@ -10,17 +10,20 @@ part 'auth_provider.g.dart';
 ///
 /// Infrastructure dependencies
 ///
+///
+
 @riverpod
-Future<AuthRepository> authRepository(AuthRepositoryRef ref) async {
+AuthRepository authRepository(AuthRepositoryRef ref) {
+  Future<SharedPreferences> sharedPreferences() async {
+    return await ref.watch(sharedPreferencesProvider.future);
+  }
+
   final supabaseClient = ref.watch(supabaseClientProvider);
-  print(supabaseClient);
   final authClient = supabaseClient.auth;
-  print(authClient);
-  final pref = ref.read(sharedPreferencesProvider).value;
-  print(pref);
+  final localsource = sharedPreferences();
 
   return AuthRepository(
-    AuthTokenLocalDataSource(pref!),
+    AuthTokenLocalDataSource(localsource),
     authClient,
     supabaseClient,
   );
